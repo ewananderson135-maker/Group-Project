@@ -8,7 +8,9 @@
 public class TestClass
 {
    public static void main(String args[]){
+       
        Interface I1 = new Interface();
        I1.run();
+
    }
 }

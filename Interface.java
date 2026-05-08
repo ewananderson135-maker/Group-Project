@@ -7,6 +7,7 @@
  */
 import java.awt.Point;
 import java.awt.event.*;
+import java.awt.*;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.io.*;
@@ -24,17 +25,19 @@ public class Interface extends JFrame
 
     private ArrayList<Point> aSnake = new ArrayList<Point>();
     private ArrayList<Item> aItems = new ArrayList<Item>();
-    private JPanel pnlGame;
 
-    public void Interface()
+    public void createFrame()
     {
-        createGrid();
+         JFrame Frame = new JFrame("Serpent Game");
 
-        setTitle("Serpent Game");
-        setSize(700, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //sets frame size
+        Frame.setSize(1000, 1000);
+    
+        //set the layout to GridLayout so the tiles will easily snap in and be the same size
+        Frame.setLayout(new GridLayout(GRID_LENGTH, GRID_WIDTH));
         setVisible(true);
 
+        createGrid();
         //addKeyListener(this);
 
         //tmrMove = new Timer(200, );
@@ -44,14 +47,15 @@ public class Interface extends JFrame
     }
        public void createGrid()
     {
-        for(int intRow = 0; intRow < GRID_LENGTH; intRow++)
+        for(int i = 0; i < GRID_LENGTH; i++)
         {
-            for(int intCol = 0; intCol < GRID_WIDTH; intCol++)
+            for(int j = 0; j < GRID_WIDTH; j++)
             {
-                aGrid[intRow][intCol] = 0;
+                aGrid[i][j] = 0;
             }
         }
     }
+    
  public void paint(Graphics g)
     {
         super.paint(g);
@@ -63,7 +67,7 @@ public class Interface extends JFrame
         {
             for(int intCol = 0; intCol < GRID_WIDTH; intCol++)
             {
-                //g.setColor(Color.BLACK);
+                g.setColor(Color.BLACK);
 
                 g.drawRect(
                     intCol * intCellSize + 50,
@@ -75,7 +79,7 @@ public class Interface extends JFrame
         }
 
         // Draw snake
-        //g.setColor(Color.GREEN);
+        g.setColor(Color.GREEN);
 
         for(Point p : aSnake)
         {
@@ -88,6 +92,6 @@ public class Interface extends JFrame
         }
     }
    public void run(){
-       Interface();
+       createFrame();
    }
 }
