@@ -11,6 +11,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.io.*;
+
 public class Interface extends JFrame
 {
     final byte GRID_LENGTH = 30;
@@ -22,10 +23,12 @@ public class Interface extends JFrame
     private short shrHighScore = 0;
     private boolean bolGameOver = false;
     private Timer tmrMove;
+    
+    
 
     private ArrayList<Point> aSnake = new ArrayList<Point>();
     private ArrayList<Item> aItems = new ArrayList<Item>();
-
+    
     public void createFrame()
     {
          JFrame Frame = new JFrame("Serpent Game");
@@ -92,6 +95,17 @@ public class Interface extends JFrame
         }
     }
    public void run(){
+       startMessage();
        createFrame();
    }
+   public void startMessage(){
+       JOptionPane.showMessageDialog(null, "Hey and welcome to serpent game!\nTo play use the up,down,left and right keys to change the snakes direction.\nCollect the yellow food for 3 points, the green superfood for 10 points, but avoid the red bombs or you'll lose points!\nMake sure you avoid hitting yourself or the wall or you'll lose!\nHave Fun");
+   }
+   public void endMessage(){
+       setVisible(false);
+       JOptionPane.showMessageDialog(null, "Great Job!");
+       JOptionPane.showMessageDialog(null, "Your high score was:"  );
+       
+   }
+   
 }
