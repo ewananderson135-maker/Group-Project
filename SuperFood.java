@@ -12,4 +12,5 @@ public class SuperFood extends Item
         super((short)10, "Green");
         
     }
+    
 }
