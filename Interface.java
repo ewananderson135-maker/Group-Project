@@ -6,13 +6,15 @@
  * @version (a version number or a date)
  */
 import java.awt.Point;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.io.*;
 
-public class Interface extends JFrame
+public class Interface extends JFrame implements KeyListener, ActionListener
 {
     final byte GRID_LENGTH = 30;
     final byte GRID_WIDTH = 30;
@@ -22,8 +24,10 @@ public class Interface extends JFrame
     private short shrScore = 0;
     private short shrHighScore = 0;
     private boolean bolGameOver = false;
-    private Timer tmrMove;
-    
+    private Timer tmrTimer;
+    private String strDirection = "RIGHT";
+    private JPanel[][] aPanels =
+    new JPanel[GRID_LENGTH][GRID_WIDTH];
     
 
     private ArrayList<Point> aSnake = new ArrayList<Point>();
@@ -31,22 +35,28 @@ public class Interface extends JFrame
     
     public void createFrame()
     {
-         JFrame Frame = new JFrame("Serpent Game");
+        setTitle("Serpent Game");
 
         //sets frame size
-        Frame.setSize(1000, 1000);
+        setSize(1000, 1000);
     
         //set the layout to GridLayout so the tiles will easily snap in and be the same size
-        Frame.setLayout(new GridLayout(GRID_LENGTH, GRID_WIDTH));
+        setLayout(new GridLayout(GRID_LENGTH, GRID_WIDTH));
         setVisible(true);
 
         createGrid();
-        //addKeyListener(this);
-
-        //tmrMove = new Timer(200, );
-
-        // Starting snake
+        
         aSnake.add(new Point(bytRowHead, bytColHead));
+        addKeyListener(this);
+       aSnake.add(new Point(15, 15));
+
+         aGrid[bytRowHead][bytColHead] = 1;
+       
+
+        // when it starts running it will actually intialize timer
+       tmrTimer = new Timer(200, this);
+         tmrTimer.start();
+
     }
        public void createGrid()
     {
@@ -55,48 +65,137 @@ public class Interface extends JFrame
             for(int j = 0; j < GRID_WIDTH; j++)
             {
                 aGrid[i][j] = 0;
+                aPanels[i][j] = new JPanel();
+
+                aPanels[i][j].setBackground(Color.BLACK);
+                add(aPanels[i][j]);
             }
         }
     }
-    
- public void paint(Graphics g)
+    public void movePlayer(){
+        Point pHead = aSnake.get(0);
+        byte bytTempRow = (byte)pHead.x;
+        byte bytTempCol = (byte)pHead.y;
+        boolean bolGrow = false;
+        
+         if(strDirection.equals("UP"))
+        {
+            bytTempRow--;
+        }
+
+        else if(strDirection.equals("DOWN"))
+        {
+            bytTempRow++;
+        }
+
+        else if(strDirection.equals("LEFT"))
+        {
+            bytTempCol--;
+        }
+
+        else if(strDirection.equals("RIGHT"))
+        {
+            bytTempCol++;
+        }
+        
+        if(checkBoundaries(bytTempRow, bytTempCol) == false){
+            endMessage();
+            return;
+        }
+        
+          
+        aSnake.add(0,new Point(bytTempRow, bytTempCol));
+
+        aGrid[bytTempRow][bytTempCol] = 1;
+
+        if(!bolGrow)
+        {
+            Point pTail = aSnake.remove(aSnake.size() - 1);
+
+            aGrid[pTail.x][pTail.y] = 0;
+        }
+
+        updateBoard();
+    }
+    public boolean checkBoundaries(byte bytTempRow, byte bytTempColumn){
+        return true;
+    }
+ 
+     public void keyPressed(KeyEvent e)
     {
-        super.paint(g);
+        int intKey = e.getKeyCode();
 
-        int intCellSize = 20;
-
-        // Draw grid
-        for(int intRow = 0; intRow < GRID_LENGTH; intRow++)
+        if(intKey == KeyEvent.VK_UP &&
+           !strDirection.equals("DOWN"))
         {
-            for(int intCol = 0; intCol < GRID_WIDTH; intCol++)
-            {
-                g.setColor(Color.BLACK);
+            strDirection = "UP";
+        }
 
-                g.drawRect(
-                    intCol * intCellSize + 50,
-                    intRow * intCellSize + 50,
-                    intCellSize,
-                    intCellSize
-                );
+        else if(intKey == KeyEvent.VK_DOWN &&
+                !strDirection.equals("UP"))
+        {
+            strDirection = "DOWN";
+        }
+
+        else if(intKey == KeyEvent.VK_LEFT &&
+                !strDirection.equals("RIGHT"))
+        {
+            strDirection = "LEFT";
+        }
+
+        else if(intKey == KeyEvent.VK_RIGHT &&
+                !strDirection.equals("LEFT"))
+        {
+            strDirection = "RIGHT";
+        }
+
+        // PAUSE
+        else if(intKey == KeyEvent.VK_SPACE)
+        {
+            if(tmrTimer.isRunning())
+            {
+                tmrTimer.stop();
+            }
+
+            else
+            {
+                tmrTimer.start();
             }
         }
-
-        // Draw snake
-        g.setColor(Color.GREEN);
-
-        for(Point p : aSnake)
-        {
-            g.fillRect(
-                p.y * intCellSize + 50,
-                p.x * intCellSize + 50,
-                intCellSize,
-                intCellSize
-            );
-        }
     }
+    //needs this for keylistner to acctually work, but it does nothing
+     public void keyReleased(KeyEvent e)
+    {
+    }
+    //needs this for keylistner to work, but does nothing when happens.
+    public void keyTyped(KeyEvent e)
+    {
+    }
+    //runs this every second and checks if games over or not, where actions happen from
+    
+    public void actionPerformed(ActionEvent e)
+{
+    movePlayer();
+}
    public void run(){
-       startMessage();
-       createFrame();
+     startMessage();
+     createFrame();
+    updateBoard();
+   }
+   public void updateBoard(){
+       Point pTemp;
+       for(byte i = 0; i < GRID_LENGTH; i++){
+           for(byte j = 0; j < GRID_WIDTH; j++){
+               aPanels[i][j].setBackground(Color.BLACK);
+           }
+       }
+       
+       for(byte i = 0; i < aSnake.size(); i++ ){
+           pTemp = aSnake.get(i);
+           aPanels[pTemp.x][pTemp.y].setBackground(Color.GREEN);
+       }
+        repaint();
+        revalidate();
    }
    public void startMessage(){
        JOptionPane.showMessageDialog(null, "Hey and welcome to serpent game!\nTo play use the up,down,left and right keys to change the snakes direction.\nCollect the yellow food for 3 points, the green superfood for 10 points, but avoid the red bombs or you'll lose points!\nMake sure you avoid hitting yourself or the wall or you'll lose!\nHave Fun");
