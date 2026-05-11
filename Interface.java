@@ -28,14 +28,17 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private String strDirection = "RIGHT";
     private JPanel[][] aPanels =
         new JPanel[GRID_LENGTH][GRID_WIDTH];
-
+    
     private ArrayList<Point> aSnake = new ArrayList<Point>();
     private ArrayList<Item> aItems = new ArrayList<Item>();
 
+    private int intDelay = 200;
+    private long lngStartTime;
     
     
     public void createFrame()
     {
+        
         setTitle("Serpent Game");
 
         //sets frame size
@@ -57,8 +60,15 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             addItem();
         }
         // when it starts running it will actually intialize timer
-        tmrTimer = new Timer(200, this);
+        
+        
+        
+        lngStartTime = System.currentTimeMillis();
+
+        tmrTimer = new Timer(intDelay, this);
+
         tmrTimer.start();
+        
 
     }
 
@@ -233,6 +243,20 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
     public void actionPerformed(ActionEvent e)
     {
+        long lngCurrentTime = System.currentTimeMillis();
+
+       if(lngCurrentTime - lngStartTime >= 10000)
+      {  
+         // this stops timer from becomiung way to fast
+         if(intDelay > 50)
+         {
+         intDelay -= 20;
+         }
+
+        tmrTimer.setDelay(intDelay);
+
+         lngStartTime = lngCurrentTime;
+        }
         movePlayer();
     }
 
