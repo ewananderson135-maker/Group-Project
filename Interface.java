@@ -114,7 +114,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
             aGrid[pTail.x][pTail.y] = 0;
         }
-
+        
         updateBoard();
     }
     public boolean checkBoundaries(byte bytTempRow, byte bytTempColumn){
@@ -149,7 +149,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             strDirection = "RIGHT";
         }
 
-        // PAUSE
+        // this is pause the game if space pressed
         else if(intKey == KeyEvent.VK_SPACE)
         {
             if(tmrTimer.isRunning())
@@ -205,6 +205,35 @@ public class Interface extends JFrame implements KeyListener, ActionListener
        JOptionPane.showMessageDialog(null, "Great Job!");
        JOptionPane.showMessageDialog(null, "Your high score was:"  );
        
+   }
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   public void addItem(){
+      byte bytRowRandom = (byte)(Math.random() * GRID_LENGTH);
+      byte bytColRandom = (byte) (Math.random() * GRID_WIDTH);
+      byte bytItemType;
+      if(aGrid[bytRowRandom][bytColRandom] != 0){
+          addItem();
+      }
+      
+      bytItemType = (byte)(Math.random() * 3);
+      
    }
    
 }
