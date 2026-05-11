@@ -275,9 +275,9 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         
         do{
             try{
+                String strName = JOptionPane.showInputDialog("UserName: ");
                 if(bytAccount == 1)
                 {
-                    String strName = JOptionPane.showInputDialog("UserName: ");
                     if(new File(strName +".txt").exists() == true)
                     {
                         BufferedReader in;
@@ -285,14 +285,16 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                         byte bytScore = Byte.parseByte(in.readLine());
                         byte bytHighScore = Byte.parseByte(in.readLine());
                     }
-                    else if(bytAccount == 2)
+                    
+                    
+                }
+                else if(bytAccount == 2)
 
                     {
                         File file = new File (strName + ".txt");
 
                     }
                     bolAccount = false;
-                }
             }
             catch(Exception e){
                 JOptionPane.showMessageDialog(null, "Wrong Input. Enter 1 or 2");
