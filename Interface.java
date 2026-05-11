@@ -59,6 +59,10 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
         aGrid[bytRowHead][bytColHead] = 1;
 
+        
+        for(byte i = 0; i < 5; i++){
+            addItem();
+        }
         // when it starts running it will actually intialize timer
         tmrTimer = new Timer(200, this);
         tmrTimer.start();
@@ -227,27 +231,69 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             pTemp = aSnake.get(i);
             aPanels[pTemp.x][pTemp.y].setBackground(Color.GREEN);
         }
+        for(byte i = 0; i < aItems.size(); i++){
+            if(aItems.get(i) instanceof Bomb){
+                aPanels[((Bomb)(aItems.get(i))).getRow()][((Bomb)(aItems.get(i))).getCol()].setBackground(Color.RED); 
+            }else if(aItems.get(i) instanceof Food){
+                aPanels[((Food)(aItems.get(i))).getRow()][((Food)(aItems.get(i))).getCol()].setBackground(Color.MAGENTA); 
+
+            }else{
+                aPanels[((SuperFood)(aItems.get(i))).getRow()][((SuperFood)(aItems.get(i))).getCol()].setBackground(Color.BLUE); 
+
+            }
+        }
         repaint();
         revalidate();
 
-    }
+        
+   }
+  
+   
+   
+   
+      
+   
+   
+   
+
+   public void addItem(){
+      byte bytRowRandom = (byte)(Math.random() * GRID_LENGTH);
+      byte bytColRandom = (byte) (Math.random() * GRID_WIDTH);
+      byte bytItemType;
+      if(aGrid[bytRowRandom][bytColRandom] != 0){
+          addItem();
+      }
+      
+      bytItemType = (byte)(Math.random() * 3);
+      
+      if(bytItemType == 0){
+          aItems.add(new Bomb(bytRowRandom, bytColRandom));
+          aGrid[bytRowRandom][bytColRandom] = 2;
+      }
+      else if(bytItemType == 1){
+          aItems.add(new Food(bytRowRandom, bytColRandom));
+          aGrid[bytRowRandom][bytColRandom] = 2;
+      }else{
+          aItems.add(new SuperFood(bytRowRandom, bytColRandom));
+          aGrid[bytRowRandom][bytColRandom] = 2;
+      }
+   }
+   
+
+    
+   
+   
+   
+   
+   
+   
+
 
    
    
    
    
-    public void addItem(){
-        byte bytRowRandom = (byte)(Math.random() * GRID_LENGTH);
-        byte bytColRandom = (byte) (Math.random() * GRID_WIDTH);
-        byte bytItemType;
-        if(aGrid[bytRowRandom][bytColRandom] != 0){
-            addItem();
-        }
-
-        bytItemType = (byte)(Math.random() * 3);
-
-    }
-
+   
     public void startMessage(){
         byte bytAccount = 0;
         JOptionPane.showMessageDialog(null, "Hey and welcome to serpent game!\nTo play use the up,down,left and right keys to change the snakes direction.\nCollect the yellow food for 3 points, the green superfood for 10 points, but avoid the red bombs or you'll lose points!\nMake sure you avoid hitting yourself or the wall or you'll lose!\nHave Fun");

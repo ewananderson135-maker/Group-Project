@@ -7,10 +7,18 @@
  */
 public class SuperFood extends Item
 {
-   SuperFood(short p, String c)
+    private byte bytRow;
+    private byte bytCol;
+   SuperFood(byte x, byte y)
     {
         super((short)10, "Green");
-        
+         this.bytRow = x;
+        this.bytCol = y;
     }
-    
+    public byte getRow(){
+        return bytRow;
+    }
+    public byte getCol(){
+        return bytCol;
+    }
 }
