@@ -1,6 +1,14 @@
 
 /**
  * Nathaniel coded this portion of the code
+<<<<<<< HEAD
+=======
+ * 
+ *  To store the user’s name that will be connected to an account with FileIO. 
+    Stores the score of the user that round and saves it into the system by FileIO.
+    Stores the highest score obtained and saves it into the system by FileIO. If the user’s score that round is higher than the high score, then update the variable to the new score.
+
+>>>>>>> 0f4f93e36e7a74b8d391d7186f8fb0ec98262e9c
  *
  * @author (Nathaniel Benedik)
  * @version (Monday May 11th, 2026)
@@ -12,7 +20,7 @@ public class Player implements java.io.Serializable
     private String strUserName;
     private short shrScore;
     private short shrPersonalHighScore;
-    
+
     //constructor class to initialize
     Player(String un, short s, short phs)
     {
@@ -62,8 +70,7 @@ public class Player implements java.io.Serializable
     }
     
     //setter method for shrPersonalHighScore to set and allow since though private
-    public void setPersonalHighScore(short phs)
-    {
-        this.shrPersonalHighScore = phs;
-    }
+
+    //Saves and stores the player’s info when opening an existing account. It is already populated with the user’s name, score, and personal high score and can be further updated.
+   
 }

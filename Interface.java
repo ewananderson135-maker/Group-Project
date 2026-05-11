@@ -40,30 +40,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     public void createFrame()
     {
         setTitle("Serpent Game");
@@ -150,12 +126,12 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
             aGrid[pTail.x][pTail.y] = 0;
         }
-        
+
         updateBoard();
     }
 
     public boolean checkBoundaries(byte bytTempRow, byte bytTempColumn){
-        
+
         for(byte i = 0; i< aSnake.size(); i++)
         {
             byte bytRow, bytCol;
@@ -166,7 +142,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                 return false;
             }
         }
-        
+
         if(bytTempRow>GRID_LENGTH || bytTempRow < 0)
         {
             return false;
@@ -180,7 +156,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         {
             return true;
         }
-        
+
     }
 
     public void keyPressed(KeyEvent e)
@@ -315,10 +291,37 @@ public class Interface extends JFrame implements KeyListener, ActionListener
    
    
 
-    public void startMessage(){
-        JOptionPane.showMessageDialog(null, "Hey and welcome to serpent game!\nTo play use the up,down,left and right keys to change the snakes direction.\nCollect the yellow food for 3 points, the green superfood for 10 points, but avoid the red bombs or you'll lose points!\nMake sure you avoid hitting yourself or the wall or you'll lose!\nHave Fun");
-    }
 
+   
+   
+   
+   
+   
+    public void startMessage(){
+        byte bytAccount = 0;
+        JOptionPane.showMessageDialog(null, "Hey and welcome to serpent game!\nTo play use the up,down,left and right keys to change the snakes direction.\nCollect the yellow food for 3 points, the green superfood for 10 points, but avoid the red bombs or you'll lose points!\nMake sure you avoid hitting yourself or the wall or you'll lose!\nHave Fun");
+        bytAccount = Byte.parseByte(JOptionPane.showInputDialog("Do you have an account? (input: 1.yes or 2.No)"));
+        try{
+            if(bytAccount == 1)
+            {
+                String strName = JOptionPane.showInputDialog("UserName: ");
+                if(new File(strName +".txt").exists() == true)
+                {
+                    //= new FileReader(strName+ ".txt");
+                }
+                else if(bytAccount == 2)
+                
+                {
+                    File file = new File (strName + ".txt");
+                }
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Wrong Input. Enter 1 or 2");
+        }
+
+    }
+    
     public void endMessage(){
         setVisible(false);
         JOptionPane.showMessageDialog(null, "Great Job!");
