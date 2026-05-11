@@ -111,6 +111,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         }
 
         if(checkBoundaries(bytTempRow, bytTempCol) == false){
+            tmrTimer.stop();
             endMessage();
             return;
         }
@@ -118,6 +119,32 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         aSnake.add(0,new Point(bytTempRow, bytTempCol));
         aGrid[bytTempRow][bytTempCol] = 1;
         for(byte i = 0; i < aItems.size();i++){
+            if(aItems.get(i) instanceof Bomb){
+                if(((Bomb)(aItems.get(i))).getRow() == bytTempRow && ((Bomb)(aItems.get(i))).getCol() == bytTempCol ){
+                    aGrid[bytTempRow][bytTempCol] = 0;
+                   aItems.remove(i);
+                   addItem();
+
+                }
+            }else if(aItems.get(i) instanceof Food){
+                if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
+                    bolGrow = true;
+                    aGrid[bytTempRow][bytTempCol] = 0;
+                   aItems.remove(i);
+                   addItem();
+
+                }
+            }else{
+                if(((SuperFood)(aItems.get(i))).getRow() == bytTempRow && ((SuperFood)(aItems.get(i))).getCol() == bytTempCol ){
+                    bolGrow = true;
+                    aGrid[bytTempRow][bytTempCol] = 0;
+                   aItems.remove(i);
+                   addItem();
+
+                }
+
+            }
+            
         }
         
         if(!bolGrow)
@@ -143,11 +170,11 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             }
         }
 
-        if(bytTempRow>GRID_LENGTH || bytTempRow < 0)
+        if(bytTempRow>GRID_LENGTH - 1 || bytTempRow < 0)
         {
             return false;
         }
-        else if(bytTempColumn>GRID_WIDTH|| bytTempRow <0)
+        else if(bytTempColumn>GRID_WIDTH - 1|| bytTempColumn <0)
         {
             return false;
         }
@@ -326,6 +353,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         setVisible(false);
         JOptionPane.showMessageDialog(null, "Great Job!");
         JOptionPane.showMessageDialog(null, "Your high score was:"  );
+        return;
 
     }
 
