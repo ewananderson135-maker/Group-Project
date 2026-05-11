@@ -141,6 +141,9 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
         aSnake.add(0,new Point(bytTempRow, bytTempCol));
         aGrid[bytTempRow][bytTempCol] = 1;
+        for(byte i = 0; i < aItems.size();i++){
+        }
+        
         if(!bolGrow)
         {
             Point pTail = aSnake.remove(aSnake.size() - 1);
