@@ -1,18 +1,18 @@
 #BlueJ package file
-dependency1.from=Interface
-dependency1.to=Item
+dependency1.from=TestClass
+dependency1.to=Interface
 dependency1.type=UsesDependency
 dependency2.from=Interface
-dependency2.to=Bomb
+dependency2.to=Item
 dependency2.type=UsesDependency
 dependency3.from=Interface
-dependency3.to=Food
+dependency3.to=Bomb
 dependency3.type=UsesDependency
 dependency4.from=Interface
-dependency4.to=SuperFood
+dependency4.to=Food
 dependency4.type=UsesDependency
-dependency5.from=TestClass
-dependency5.to=Interface
+dependency5.from=Interface
+dependency5.to=SuperFood
 dependency5.type=UsesDependency
 editor.fx.0.height=739
 editor.fx.0.width=816
