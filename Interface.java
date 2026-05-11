@@ -13,7 +13,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.io.*;
-
+import java.util.Scanner;
 public class Interface extends JFrame implements KeyListener, ActionListener
 {
     final byte GRID_LENGTH = 30;
@@ -304,12 +304,16 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                 String strName = JOptionPane.showInputDialog("UserName: ");
                 if(new File(strName +".txt").exists() == true)
                 {
-                    //= new FileReader(strName+ ".txt");
+                    BufferedReader in;
+                    in = new BufferedReader(new FileReader(strName+ ".txt"));
+                    byte bytScore = Byte.parseByte(in.readLine());
+                    byte bytHighScore = Byte.parseByte(in.readLine());
                 }
                 else if(bytAccount == 2)
                 
                 {
                     File file = new File (strName + ".txt");
+                    
                 }
             }
         }
