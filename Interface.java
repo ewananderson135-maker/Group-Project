@@ -325,5 +325,33 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         JOptionPane.showMessageDialog(null, "Your high score was:"  );
 
     }
+    
+    
+    
+    
+    
+    
+    
+    public void uploadHighScore()
+    {
+        try
+        {
+            BufferedReader br = new BufferedReader(new FileReader("HighScore.txt"));
+            
+            String line;
+            
+            while ((line = br.readLine()) != null)
+            {
+                System.out.println(line);
+                
+            }
+            
+            br.close();    
+        } catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        
+    }
 
-}
+} 
