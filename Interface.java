@@ -13,7 +13,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.io.*;
-
+import java.util.Scanner;
 public class Interface extends JFrame implements KeyListener, ActionListener
 {
     final byte GRID_LENGTH = 30;
@@ -32,12 +32,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private ArrayList<Point> aSnake = new ArrayList<Point>();
     private ArrayList<Item> aItems = new ArrayList<Item>();
 
-    
-    
-    
-    
-    
-    
     
     
     public void createFrame()
@@ -59,7 +53,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
         aGrid[bytRowHead][bytColHead] = 1;
 
-        
         for(byte i = 0; i < 5; i++){
             addItem();
         }
@@ -245,52 +238,32 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         repaint();
         revalidate();
 
-        
-   }
-  
-   
-   
-   
-      
-   
-   
-   
-
-   public void addItem(){
-      byte bytRowRandom = (byte)(Math.random() * GRID_LENGTH);
-      byte bytColRandom = (byte) (Math.random() * GRID_WIDTH);
-      byte bytItemType;
-      if(aGrid[bytRowRandom][bytColRandom] != 0){
-          addItem();
-      }
-      
-      bytItemType = (byte)(Math.random() * 3);
-      
-      if(bytItemType == 0){
-          aItems.add(new Bomb(bytRowRandom, bytColRandom));
-          aGrid[bytRowRandom][bytColRandom] = 2;
-      }
-      else if(bytItemType == 1){
-          aItems.add(new Food(bytRowRandom, bytColRandom));
-          aGrid[bytRowRandom][bytColRandom] = 2;
-      }else{
-          aItems.add(new SuperFood(bytRowRandom, bytColRandom));
-          aGrid[bytRowRandom][bytColRandom] = 2;
-      }
-   }
-   
-
-    
-   
-   
-   
-   
-   
-   
-
+    }
 
    
-   
+    public void addItem(){
+        byte bytRowRandom = (byte)(Math.random() * GRID_LENGTH);
+        byte bytColRandom = (byte) (Math.random() * GRID_WIDTH);
+        byte bytItemType;
+        if(aGrid[bytRowRandom][bytColRandom] != 0){
+            addItem();
+        }
+
+        bytItemType = (byte)(Math.random() * 3);
+
+        if(bytItemType == 0){
+            aItems.add(new Bomb(bytRowRandom, bytColRandom));
+            aGrid[bytRowRandom][bytColRandom] = 2;
+        }
+        else if(bytItemType == 1){
+            aItems.add(new Food(bytRowRandom, bytColRandom));
+            aGrid[bytRowRandom][bytColRandom] = 2;
+        }else{
+            aItems.add(new SuperFood(bytRowRandom, bytColRandom));
+            aGrid[bytRowRandom][bytColRandom] = 2;
+        }
+    }
+
    
    
    
@@ -298,27 +271,37 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         byte bytAccount = 0;
         JOptionPane.showMessageDialog(null, "Hey and welcome to serpent game!\nTo play use the up,down,left and right keys to change the snakes direction.\nCollect the yellow food for 3 points, the green superfood for 10 points, but avoid the red bombs or you'll lose points!\nMake sure you avoid hitting yourself or the wall or you'll lose!\nHave Fun");
         bytAccount = Byte.parseByte(JOptionPane.showInputDialog("Do you have an account? (input: 1.yes or 2.No)"));
-        try{
-            if(bytAccount == 1)
-            {
-                String strName = JOptionPane.showInputDialog("UserName: ");
-                if(new File(strName +".txt").exists() == true)
+        boolean bolAccount = true;
+        
+        do{
+            try{
+                if(bytAccount == 1)
                 {
-                    //= new FileReader(strName+ ".txt");
-                }
-                else if(bytAccount == 2)
-                
-                {
-                    File file = new File (strName + ".txt");
+                    String strName = JOptionPane.showInputDialog("UserName: ");
+                    if(new File(strName +".txt").exists() == true)
+                    {
+                        BufferedReader in;
+                        in = new BufferedReader(new FileReader(strName+ ".txt"));
+                        byte bytScore = Byte.parseByte(in.readLine());
+                        byte bytHighScore = Byte.parseByte(in.readLine());
+                    }
+                    else if(bytAccount == 2)
+
+                    {
+                        File file = new File (strName + ".txt");
+
+                    }
+                    bolAccount = false;
                 }
             }
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Wrong Input. Enter 1 or 2");
-        }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(null, "Wrong Input. Enter 1 or 2");
+            }
+
+        }while(bolAccount);
 
     }
-    
+
     public void endMessage(){
         setVisible(false);
         JOptionPane.showMessageDialog(null, "Great Job!");
