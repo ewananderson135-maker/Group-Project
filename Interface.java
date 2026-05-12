@@ -487,8 +487,8 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     public void writePlayer(){
         try{
             PrintWriter out = new PrintWriter(new FileWriter(p.getUserName() + ".txt"));
-            out.write(p.getUserName());
-            out.write(String.valueOf(p.getPersonalHighScore()));
+            out.println(p.getUserName());
+            out.println(String.valueOf(p.getPersonalHighScore()));
             out.close();
         }catch (IOException e)
             {
