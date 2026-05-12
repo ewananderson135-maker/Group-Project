@@ -341,14 +341,14 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                         in = new BufferedReader(new FileReader(strName+ ".txt"));
                         String strUserName = in.readLine();
                         
-                        byte bytPersonalHighScore = Byte.parseByte(in.readLine());
-                        Player p = new Player(strName,bytPersonalHighScore);
+                        short shrPersonalHighScore = Byte.parseByte(in.readLine());
+                        Player p = new Player(strName,shrPersonalHighScore);
                     }
                     else
                     {
                         JOptionPane.showMessageDialog(null, "Your account does not exist: creating new account");
                         File file = new File (strName + ".txt");
-                        Player p = new Player(strName,0);
+                        Player p = new Player(strName,(short)0);
                         //return strName;
                     }
                     
@@ -357,7 +357,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
                     {
                         File file = new File (strName + ".txt");
-                        Player p = new Player(strName,0);
+                        Player p = new Player(strName,(short)0);
                         //return strName;
                     }
                     bolAccount = false;
