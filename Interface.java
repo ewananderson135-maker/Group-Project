@@ -27,18 +27,17 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private String strDirection = "RIGHT";
     private JPanel[][] aPanels =
         new JPanel[GRID_LENGTH][GRID_WIDTH];
-    
+
     private ArrayList<Point> aSnake = new ArrayList<Point>();
     private ArrayList<Item> aItems = new ArrayList<Item>();
     private short shrHighScore;
 
     private int intDelay = 200;
     private long lngStartTime;
-    
-    
+
     public void createFrame()
     {
-        
+
         setTitle("Serpent Game");
 
         //sets frame size
@@ -56,24 +55,16 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         aSnake.add(new Point(15, 15));
 
         aGrid[bytRowHead][bytColHead] = 1;
-    
+
         for(byte i = 0; i < 5; i++){
             addItem();
         }
         // when it starts running it will actually intialize timer
-        
-        
-        
+
         lngStartTime = System.currentTimeMillis();
-
         tmrTimer = new Timer(intDelay, this);
-
         tmrTimer.start();
-        
-
     }
-
-      
     public void createGrid()
     {
         for(int i = 0; i < GRID_LENGTH; i++)
@@ -128,31 +119,32 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                 if(((Bomb)(aItems.get(i))).getRow() == bytTempRow && ((Bomb)(aItems.get(i))).getCol() == bytTempCol ){
                     aGrid[bytTempRow][bytTempCol] = 0;
                     
-                   aItems.remove(i);
-                   addItem();
+                   
+                    aItems.remove(i);
+                    addItem();
 
                 }
             }else if(aItems.get(i) instanceof Food){
                 if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
                     bolGrow = true;
                     aGrid[bytTempRow][bytTempCol] = 0;
-                   aItems.remove(i);
-                   addItem();
+                    aItems.remove(i);
+                    addItem();
 
                 }
             }else{
                 if(((SuperFood)(aItems.get(i))).getRow() == bytTempRow && ((SuperFood)(aItems.get(i))).getCol() == bytTempCol ){
                     bolGrow = true;
                     aGrid[bytTempRow][bytTempCol] = 0;
-                   aItems.remove(i);
-                   addItem();
+                    aItems.remove(i);
+                    addItem();
 
                 }
 
             }
-            
+
         }
-        
+
         if(!bolGrow)
         {
             Point pTail = aSnake.remove(aSnake.size() - 1);
@@ -248,17 +240,17 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     {
         long lngCurrentTime = System.currentTimeMillis();
 
-       if(lngCurrentTime - lngStartTime >= 10000)
-      {  
-         // this stops timer from becomiung way to fast
-         if(intDelay > 50)
-         {
-         intDelay -= 20;
-         }
+        if(lngCurrentTime - lngStartTime >= 10000)
+        {  
+            // this stops timer from becomiung way to fast
+            if(intDelay > 50)
+            {
+                intDelay -= 20;
+            }
 
-        tmrTimer.setDelay(intDelay);
+            tmrTimer.setDelay(intDelay);
 
-         lngStartTime = lngCurrentTime;
+            lngStartTime = lngCurrentTime;
         }
         movePlayer();
     }
@@ -266,7 +258,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     public void run(){
         uploadHighScore();
         startMessage();
-        
+
         createFrame();
         updateBoard();
     }
@@ -299,7 +291,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
     }
 
-   
     public void addItem(){
         byte bytRowRandom = (byte)(Math.random() * GRID_LENGTH);
         byte bytColRandom = (byte) (Math.random() * GRID_WIDTH);
@@ -323,18 +314,22 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         }
     }
 
-   
-   
-   
     public  String startMessage(){
         byte bytAccount = 0;
         JOptionPane.showMessageDialog(null, "Hey and welcome to serpent game!\nTo play use the up,down,left and right keys to change the snakes direction.\nCollect the yellow food for 3 points, the green superfood for 10 points, but avoid the red bombs or you'll lose points!\nMake sure you avoid hitting yourself or the wall or you'll lose!\nHave Fun");
-        bytAccount = Byte.parseByte(JOptionPane.showInputDialog("Do you have an account? (input: 1.yes or 2.No)"));
+        bytAccount = Byte.parseByte(JOptionPane.showInputDialog("Do you have an account? (input: 1.Yes or 2.No)"));
         boolean bolAccount = true;
-        String strName = " ";
+        String strName =  JOptionPane.showInputDialog("UserName: ");
         do{
             try{
-                strName = JOptionPane.showInputDialog("UserName: ");
+
+                if(bytAccount!=1 && bytAccount != 2)
+                {
+                    bytAccount = Byte.parseByte(JOptionPane.showInputDialog("Wrong Input: enter 1 or 2"));
+
+                }
+                
+
                 if(bytAccount == 1)
                 {
                     if(new File(strName +".txt").exists() == true)
@@ -344,16 +339,18 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                         String strUserName = in.readLine();
                         
                         byte bytPersonalHighScore = Byte.parseByte(in.readLine());
-                        //Player p = new Player(strName,bytPersonalHighScore);
+                        short shrPersonalHighScore = Byte.parseByte(in.readLine());
+                        Player p = new Player(strName,shrPersonalHighScore);
                     }
                     else
                     {
                         JOptionPane.showMessageDialog(null, "Your account does not exist: creating new account");
                         File file = new File (strName + ".txt");
                         //Player p = new Player(strName,0);
+                        Player p = new Player(strName,(short)0);
                         //return strName;
                     }
-                    
+                    bolAccount = false;    
                 }
                 else if(bytAccount == 2)
 
@@ -362,17 +359,22 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                         //Player p = new Player(strName,0);
                         //return strName;
                     }
+                {
+                    File file = new File (strName + ".txt");
+                    Player p = new Player(strName,(short)0);
+                    //return strName;
                     bolAccount = false;
+                }
+                
+                strName =  JOptionPane.showInputDialog("UserName: ");
             }
             catch(Exception e){
-                JOptionPane.showMessageDialog(null, "Wrong Input. Enter 1 or 2");
+                JOptionPane.showMessageDialog(null, "Wrong Input.");
             }
 
         }while(bolAccount);
         return strName;
     }
-    
-    
 
     public void endMessage(){
         setVisible(false);
@@ -381,37 +383,30 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         return;
 
     }
-    
-    
-    
+
     public void writeHighScore(){
         //shrHighScore
-        
+
     }
-    
-    
-    
+
     public void uploadHighScore()
     {
-        
+
         if(new File("HighScore.txt").exists() == true){
-        try
-        {
-                
-            
-            BufferedReader br = new BufferedReader(new FileReader("HighScore.txt"));
-            
-            shrHighScore = Short.parseShort(br.readLine());
-            
-            br.close();    
-        } catch(IOException e)
-        {
-            e.printStackTrace();
+            try
+            {
+
+                BufferedReader br = new BufferedReader(new FileReader("HighScore.txt"));
+                shrHighScore = Short.parseShort(br.readLine());
+                br.close();    
+            } catch(IOException e)
+            {
+                e.printStackTrace();
+            }
+
+        }else{
+            shrHighScore = 0;
         }
-        
-    }else{
-        shrHighScore = 0;
     }
-}
 
 } 
