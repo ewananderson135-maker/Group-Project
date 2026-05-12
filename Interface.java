@@ -22,15 +22,15 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private byte bytRowHead = 15;
     private byte bytColHead = 15;
     private short shrScore = 0;
-    private short shrHighScore = 0;
     private boolean bolGameOver = false;
     private Timer tmrTimer;
     private String strDirection = "RIGHT";
     private JPanel[][] aPanels =
         new JPanel[GRID_LENGTH][GRID_WIDTH];
-    
+    private Player p;
     private ArrayList<Point> aSnake = new ArrayList<Point>();
     private ArrayList<Item> aItems = new ArrayList<Item>();
+    private short shrHighScore;
 
     private int intDelay = 200;
     private long lngStartTime;
@@ -55,7 +55,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         aSnake.add(new Point(15, 15));
 
         aGrid[bytRowHead][bytColHead] = 1;
-
+    
         for(byte i = 0; i < 5; i++){
             addItem();
         }
@@ -72,6 +72,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
     }
 
+      
     public void createGrid()
     {
         for(int i = 0; i < GRID_LENGTH; i++)
@@ -261,7 +262,9 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     }
 
     public void run(){
+        uploadHighScore();
         startMessage();
+        
         createFrame();
         updateBoard();
     }
@@ -337,14 +340,15 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                         BufferedReader in;
                         in = new BufferedReader(new FileReader(strName+ ".txt"));
                         String strUserName = in.readLine();
-                        byte bytScore = Byte.parseByte(in.readLine());
-                        byte bytHighScore = Byte.parseByte(in.readLine());
                         
+                        byte bytPersonalHighScore = Byte.parseByte(in.readLine());
+                         p = new Player(strName,bytPersonalHighScore);
                     }
                     else
                     {
                         JOptionPane.showMessageDialog(null, "Your account does not exist: creating new account");
                         File file = new File (strName + ".txt");
+                         p = new Player(strName,(short)0);
                         //return strName;
                     }
                     
@@ -353,6 +357,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
                     {
                         File file = new File (strName + ".txt");
+                         p = new Player(strName,(short)0);
                         //return strName;
                     }
                     bolAccount = false;
@@ -377,43 +382,62 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     
     
     
-    
-    
-    
-    
-    
-    public void writeHighScore()
-    {
-        
-        
-        
-        
+    public void writeHighScore(){
+        //shrHighScore
+        if (p.getPersonalHighScore() < shrHighScore)
+        {
+            try
+            {
+                BufferedWriter br = new BufferedWriter(new FileWriter("Highscore.txt"));
+                br.write(p.getPersonalHighScore());
+                
+                br.close();
+                
+            } 
+            catch (IOException e)
+            {
+                e.printStackTrace();
+                
+            }
+            
+        }
         
         
     }
     
     
     
+    
+    
+    
+    
+    
     public void uploadHighScore()
     {
+        if(new File("HighScore.txt").exists() == true){
         try
         {
+    
             BufferedReader br = new BufferedReader(new FileReader("Highscore.txt"));
             
             String line;
             
             while ((line = br.readLine()) != null)
             {
-                System.out.println(line);
-                
-            }
+            System.out.println(line);
+          
+            shrHighScore = Short.parseShort(br.readLine());
             
             br.close();    
-        } catch(IOException e)
+        } }catch(IOException e)
+    
         {
             e.printStackTrace();
         }
         
+    }else{
+        shrHighScore = 0;
     }
+}
 
 } 
