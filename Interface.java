@@ -60,15 +60,10 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         }
         // when it starts running it will actually intialize timer
 
-        
         lngStartTime = System.currentTimeMillis();
-
         tmrTimer = new Timer(intDelay, this);
-
         tmrTimer.start();
-
     }
-      
     public void createGrid()
     {
         for(int i = 0; i < GRID_LENGTH; i++)
@@ -316,16 +311,22 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         }
     }
 
-   
     public  String startMessage(){
         byte bytAccount = 0;
         JOptionPane.showMessageDialog(null, "Hey and welcome to serpent game!\nTo play use the up,down,left and right keys to change the snakes direction.\nCollect the yellow food for 3 points, the green superfood for 10 points, but avoid the red bombs or you'll lose points!\nMake sure you avoid hitting yourself or the wall or you'll lose!\nHave Fun");
-        bytAccount = Byte.parseByte(JOptionPane.showInputDialog("Do you have an account? (input: 1.yes or 2.No)"));
+        bytAccount = Byte.parseByte(JOptionPane.showInputDialog("Do you have an account? (input: 1.Yes or 2.No)"));
         boolean bolAccount = true;
-        String strName = " ";
+        String strName =  JOptionPane.showInputDialog("UserName: ");
         do{
             try{
-                strName = JOptionPane.showInputDialog("UserName: ");
+
+                if(bytAccount!=1 && bytAccount != 2)
+                {
+                    bytAccount = Byte.parseByte(JOptionPane.showInputDialog("Wrong Input: enter 1 or 2"));
+
+                }
+                
+
                 if(bytAccount == 1)
                 {
                     if(new File(strName +".txt").exists() == true)
@@ -343,7 +344,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                         Player p = new Player(strName,(short)0);
                         //return strName;
                     }
-
+                    bolAccount = false;    
                 }
                 else if(bytAccount == 2)
 
@@ -351,17 +352,18 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     File file = new File (strName + ".txt");
                     Player p = new Player(strName,(short)0);
                     //return strName;
+                    bolAccount = false;
                 }
-                bolAccount = false;
+                
+                strName =  JOptionPane.showInputDialog("UserName: ");
             }
             catch(Exception e){
-                JOptionPane.showMessageDialog(null, "Wrong Input. Enter 1 or 2");
+                JOptionPane.showMessageDialog(null, "Wrong Input.");
             }
 
         }while(bolAccount);
         return strName;
     }
-
 
     public void endMessage(){
         setVisible(false);
@@ -371,13 +373,11 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
     }
 
-    
     public void writeHighScore(){
         //shrHighScore
 
     }
 
-    
     public void uploadHighScore()
     {
 
