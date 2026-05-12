@@ -28,14 +28,17 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private String strDirection = "RIGHT";
     private JPanel[][] aPanels =
         new JPanel[GRID_LENGTH][GRID_WIDTH];
-
+    
     private ArrayList<Point> aSnake = new ArrayList<Point>();
     private ArrayList<Item> aItems = new ArrayList<Item>();
 
+    private int intDelay = 200;
+    private long lngStartTime;
     
     
     public void createFrame()
     {
+        
         setTitle("Serpent Game");
 
         //sets frame size
@@ -57,8 +60,15 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             addItem();
         }
         // when it starts running it will actually intialize timer
-        tmrTimer = new Timer(200, this);
+        
+        
+        
+        lngStartTime = System.currentTimeMillis();
+
+        tmrTimer = new Timer(intDelay, this);
+
         tmrTimer.start();
+        
 
     }
 
@@ -104,12 +114,42 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         }
 
         if(checkBoundaries(bytTempRow, bytTempCol) == false){
+            tmrTimer.stop();
             endMessage();
             return;
         }
 
         aSnake.add(0,new Point(bytTempRow, bytTempCol));
         aGrid[bytTempRow][bytTempCol] = 1;
+        for(byte i = 0; i < aItems.size();i++){
+            if(aItems.get(i) instanceof Bomb){
+                if(((Bomb)(aItems.get(i))).getRow() == bytTempRow && ((Bomb)(aItems.get(i))).getCol() == bytTempCol ){
+                    aGrid[bytTempRow][bytTempCol] = 0;
+                   aItems.remove(i);
+                   addItem();
+
+                }
+            }else if(aItems.get(i) instanceof Food){
+                if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
+                    bolGrow = true;
+                    aGrid[bytTempRow][bytTempCol] = 0;
+                   aItems.remove(i);
+                   addItem();
+
+                }
+            }else{
+                if(((SuperFood)(aItems.get(i))).getRow() == bytTempRow && ((SuperFood)(aItems.get(i))).getCol() == bytTempCol ){
+                    bolGrow = true;
+                    aGrid[bytTempRow][bytTempCol] = 0;
+                   aItems.remove(i);
+                   addItem();
+
+                }
+
+            }
+            
+        }
+        
         if(!bolGrow)
         {
             Point pTail = aSnake.remove(aSnake.size() - 1);
@@ -133,11 +173,11 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             }
         }
 
-        if(bytTempRow>GRID_LENGTH || bytTempRow < 0)
+        if(bytTempRow>GRID_LENGTH - 1 || bytTempRow < 0)
         {
             return false;
         }
-        else if(bytTempColumn>GRID_WIDTH|| bytTempRow <0)
+        else if(bytTempColumn>GRID_WIDTH - 1|| bytTempColumn <0)
         {
             return false;
         }
@@ -203,6 +243,20 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
     public void actionPerformed(ActionEvent e)
     {
+        long lngCurrentTime = System.currentTimeMillis();
+
+       if(lngCurrentTime - lngStartTime >= 10000)
+      {  
+         // this stops timer from becomiung way to fast
+         if(intDelay > 50)
+         {
+         intDelay -= 20;
+         }
+
+        tmrTimer.setDelay(intDelay);
+
+         lngStartTime = lngCurrentTime;
+        }
         movePlayer();
     }
 
@@ -310,6 +364,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         setVisible(false);
         JOptionPane.showMessageDialog(null, "Great Job!");
         JOptionPane.showMessageDialog(null, "Your high score was:"  );
+        return;
 
     }
     
