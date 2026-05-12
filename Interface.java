@@ -49,7 +49,8 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         setVisible(true);
 
         createGrid();
-
+        
+        
         aSnake.add(new Point(bytRowHead, bytColHead));
         addKeyListener(this);
         aSnake.add(new Point(15, 15));
@@ -126,6 +127,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             if(aItems.get(i) instanceof Bomb){
                 if(((Bomb)(aItems.get(i))).getRow() == bytTempRow && ((Bomb)(aItems.get(i))).getCol() == bytTempCol ){
                     aGrid[bytTempRow][bytTempCol] = 0;
+                    
                    aItems.remove(i);
                    addItem();
 
@@ -342,13 +344,13 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                         String strUserName = in.readLine();
                         
                         byte bytPersonalHighScore = Byte.parseByte(in.readLine());
-                        Player p = new Player(strName,bytPersonalHighScore);
+                        //Player p = new Player(strName,bytPersonalHighScore);
                     }
                     else
                     {
                         JOptionPane.showMessageDialog(null, "Your account does not exist: creating new account");
                         File file = new File (strName + ".txt");
-                        Player p = new Player(strName,0);
+                        //Player p = new Player(strName,0);
                         //return strName;
                     }
                     
@@ -357,7 +359,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
                     {
                         File file = new File (strName + ".txt");
-                        Player p = new Player(strName,0);
+                        //Player p = new Player(strName,0);
                         //return strName;
                     }
                     bolAccount = false;
