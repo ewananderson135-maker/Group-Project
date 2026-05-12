@@ -381,11 +381,24 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     
     
     
+    
+    public void writeHighScore()
+    {
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    
     public void uploadHighScore()
     {
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader( "Highscore.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("Highscore.txt"));
             
             String line;
             
