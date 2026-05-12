@@ -329,17 +329,17 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         JOptionPane.showMessageDialog(null, "Hey and welcome to serpent game!\nTo play use the up,down,left and right keys to change the snakes direction.\nCollect the yellow food for 3 points, the green superfood for 10 points, but avoid the red bombs or you'll lose points!\nMake sure you avoid hitting yourself or the wall or you'll lose!\nHave Fun");
         bytAccount = Byte.parseByte(JOptionPane.showInputDialog("Do you have an account? (input: 1.Yes or 2.No)"));
         boolean bolAccount = true;
-        String strName =  JOptionPane.showInputDialog("UserName: ");
+        String strName =  " ";
         do{
             try{
 
-                if(bytAccount!=1 && bytAccount != 2)
+                while (bytAccount!=1 && bytAccount != 2)
                 {
                     bytAccount = Byte.parseByte(JOptionPane.showInputDialog("Wrong Input: enter 1 or 2"));
 
                 }
                 
-
+                strName =  JOptionPane.showInputDialog("UserName: ");
                 if(bytAccount == 1)
                 {
                     if(new File(strName +".txt").exists() == true)
@@ -386,7 +386,9 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     bolAccount = false;
                 }
                 
-                strName =  JOptionPane.showInputDialog("UserName: ");
+                    
+                
+                
             }
             catch(Exception e){
                 JOptionPane.showMessageDialog(null, "Wrong Input.");
