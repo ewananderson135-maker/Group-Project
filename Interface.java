@@ -285,7 +285,9 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                         byte bytScore = Byte.parseByte(in.readLine());
                         byte bytHighScore = Byte.parseByte(in.readLine());
                     }
-                    
+                    //else if(){
+                        
+                    //}
                     
                 }
                 else if(bytAccount == 2)
