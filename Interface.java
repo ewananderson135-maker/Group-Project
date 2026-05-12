@@ -35,6 +35,14 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private Player p;
     private int intDelay = 200;
     private long lngStartTime;
+    private JPanel pnlTop;
+    private JPanel pnlGrid;
+    private JLabel lblScore;
+    private JLabel lblPersonalHigh;
+    private JLabel lblHighScore; 
+    
+    
+    
 
     public void createFrame()
     {
@@ -45,9 +53,42 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         setSize(1000, 1000);
 
         //set the layout to GridLayout so the tiles will easily snap in and be the same size
-        setLayout(new GridLayout(GRID_LENGTH, GRID_WIDTH));
+       setLayout(new BorderLayout());
         setVisible(true);
 
+        
+        
+        
+        
+        
+        pnlTop = new JPanel();
+
+        pnlTop.setBackground(Color.BLACK);
+
+        lblScore = new JLabel("Score: 0");
+
+        lblPersonalHigh = new JLabel(" Personal High: " + p.getPersonalHighScore());
+        lblHighScore = new JLabel(" Global High: "+ shrHighScore);
+
+        lblScore.setForeground(Color.WHITE);
+
+        lblPersonalHigh.setForeground(Color.WHITE);
+
+        lblHighScore.setForeground(Color.WHITE);
+
+        pnlTop.add(lblScore);
+
+        pnlTop.add(lblPersonalHigh);
+
+        pnlTop.add(lblHighScore);
+
+        add(pnlTop, BorderLayout.NORTH);
+        
+        pnlGrid = new JPanel();
+
+        pnlGrid.setLayout(new GridLayout(GRID_LENGTH,GRID_WIDTH));
+
+        add(pnlGrid, BorderLayout.CENTER);
         createGrid();
         
         
@@ -81,7 +122,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                 aPanels[i][j] = new JPanel();
 
                 aPanels[i][j].setBackground(Color.BLACK);
-                add(aPanels[i][j]);
+                pnlGrid.add(aPanels[i][j]);
             }
         }
     }
@@ -123,11 +164,8 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         for(byte i = 0; i < aItems.size();i++){
             if(aItems.get(i) instanceof Bomb){
                 if(((Bomb)(aItems.get(i))).getRow() == bytTempRow && ((Bomb)(aItems.get(i))).getCol() == bytTempCol ){
-                    aGrid[bytTempRow][bytTempCol] = 0;
-
-                    aItems.remove(i);
-                    addItem();
-                 p.setScore(aItems.get(i).getPoints());
+                    aGrid[bytTempRow][bytTempCol] = 0; 
+                    p.setScore(aItems.get(i).getPoints());
                     aItems.remove(i);
                     addItem();
 
@@ -136,9 +174,9 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                 if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
                     bolGrow = true;
                     aGrid[bytTempRow][bytTempCol] = 0;
+                    p.setScore(aItems.get(i).getPoints());
                     aItems.remove(i);
                     addItem();
-                    p.setScore(aItems.get(i).getPoints());
 
 
                 }
@@ -146,10 +184,11 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                 if(((SuperFood)(aItems.get(i))).getRow() == bytTempRow && ((SuperFood)(aItems.get(i))).getCol() == bytTempCol ){
                     bolGrow = true;
                     aGrid[bytTempRow][bytTempCol] = 0;
+                     p.setScore(aItems.get(i).getPoints());
+
                     aItems.remove(i);
                     addItem();
 
-                        p.setScore(aItems.get(i).getPoints());
 
 
                 }
@@ -300,6 +339,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
             }
         }
+        lblScore.setText("Score: " + p.getScore());
         repaint();
         revalidate();
 
@@ -336,7 +376,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
         String strName =  JOptionPane.showInputDialog("UserName: ");
 
-        String strName =  " ";
 
         do{
             try{
@@ -433,24 +472,41 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     }
 
     public void endMessage(){
+        if(p.getPersonalHighScore() <= p.getScore()){
+            p.setPersonalHighScore(p.getScore());
+        }
+        writeHighScore();
+        writePlayer();
         setVisible(false);
         JOptionPane.showMessageDialog(null, "Great Job!");
         JOptionPane.showMessageDialog(null, "Your score was: " + p.getScore() );
         return;
 
     }
-
+    
+    public void writePlayer(){
+        try{
+            PrintWriter out = new PrintWriter(new FileWriter(p.getUserName() + ".txt"));
+            out.write(p.getUserName());
+            out.write(String.valueOf(p.getPersonalHighScore()));
+            out.close();
+        }catch (IOException e)
+            {
+                e.printStackTrace();
+                
+            }
+    }
 
     public void writeHighScore(){
-        //shrHighScore
-        if (p.getPersonalHighScore() < shrHighScore)
+        if (p.getPersonalHighScore() >= shrHighScore)
         {
             try
             {
-                BufferedWriter br = new BufferedWriter(new FileWriter("Highscore.txt"));
-                br.write(p.getPersonalHighScore());
+                shrHighScore = p.getPersonalHighScore();
+                PrintWriter out = new PrintWriter(new FileWriter("HighScore.txt"));
+                out.write(String.valueOf(shrHighScore));
                 
-                br.close();
+                out.close();
                 
             } 
             catch (IOException e)
@@ -475,11 +531,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     
 
 
-    public void writeHighScore(){
-        //shrHighScore
-        
-    }
-
+   
 
 
     public void uploadHighScore()
@@ -500,22 +552,9 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
         }else{
             shrHighScore = 0;
-            BufferedReader br = new BufferedReader(new FileReader("Highscore.txt"));
-            
-            String line;
-            
-            System.out.println(line);
-          
-            shrHighScore = Short.parseShort(br.readLine());
-            
-            br.close();    
-        } 
-       else{
-            shrHighScore = 0;
-
-
-        
-
+           
     }
 
+}
 } 
+

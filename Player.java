@@ -71,6 +71,9 @@ public class Player implements java.io.Serializable
     
     //setter method for shrPersonalHighScore to set and allow since though private
 
+    public void setPersonalHighScore(short x){
+        this.shrPersonalHighScore = x;
+    }
     //Saves and stores the player’s info when opening an existing account. It is already populated with the user’s name, score, and personal high score and can be further updated.
    
 }
