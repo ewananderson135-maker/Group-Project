@@ -22,7 +22,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private byte bytRowHead = 15;
     private byte bytColHead = 15;
     private short shrScore = 0;
-    private short shrHighScore = 0;
     private boolean bolGameOver = false;
     private Timer tmrTimer;
     private String strDirection = "RIGHT";
@@ -31,6 +30,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     
     private ArrayList<Point> aSnake = new ArrayList<Point>();
     private ArrayList<Item> aItems = new ArrayList<Item>();
+    private short shrHighScore;
 
     private int intDelay = 200;
     private long lngStartTime;
@@ -55,7 +55,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         aSnake.add(new Point(15, 15));
 
         aGrid[bytRowHead][bytColHead] = 1;
-
+    
         for(byte i = 0; i < 5; i++){
             addItem();
         }
@@ -72,6 +72,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
     }
 
+      
     public void createGrid()
     {
         for(int i = 0; i < GRID_LENGTH; i++)
@@ -261,7 +262,9 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     }
 
     public void run(){
+        uploadHighScore();
         startMessage();
+        
         createFrame();
         updateBoard();
     }
@@ -379,23 +382,24 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     
     
     
-    
+    public void writeHighScore(){
+        //shrHighScore
+        
+    }
     
     
     
     public void uploadHighScore()
     {
+        
+        if(new File("HighScore.txt").exists() == true){
         try
         {
-            BufferedReader br = new BufferedReader(new FileReader( "Highscore.txt"));
-            
-            String line;
-            
-            while ((line = br.readLine()) != null)
-            {
-                System.out.println(line);
                 
-            }
+            
+            BufferedReader br = new BufferedReader(new FileReader("HighScore.txt"));
+            
+            shrHighScore = Short.parseShort(br.readLine());
             
             br.close();    
         } catch(IOException e)
@@ -403,6 +407,9 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             e.printStackTrace();
         }
         
+    }else{
+        shrHighScore = 0;
     }
+}
 
 } 
