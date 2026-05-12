@@ -60,7 +60,7 @@ public class Player implements java.io.Serializable
     //setter method for shrScore to set and allow access since private
     public void setScore(short s)
     {
-        this.shrScore = s;
+        this.shrScore += s;
     }
     
     //getter method for shrPersonalHighScore to allow access since private

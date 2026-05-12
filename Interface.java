@@ -31,7 +31,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private ArrayList<Point> aSnake = new ArrayList<Point>();
     private ArrayList<Item> aItems = new ArrayList<Item>();
     private short shrHighScore;
-
+    private Player p;
     private int intDelay = 200;
     private long lngStartTime;
 
@@ -118,10 +118,10 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             if(aItems.get(i) instanceof Bomb){
                 if(((Bomb)(aItems.get(i))).getRow() == bytTempRow && ((Bomb)(aItems.get(i))).getCol() == bytTempCol ){
                     aGrid[bytTempRow][bytTempCol] = 0;
-                    
-                   
+
                     aItems.remove(i);
                     addItem();
+                 p.setScore(aItems.get(i).getPoints());
 
                 }
             }else if(aItems.get(i) instanceof Food){
@@ -130,6 +130,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     aGrid[bytTempRow][bytTempCol] = 0;
                     aItems.remove(i);
                     addItem();
+                    p.setScore(aItems.get(i).getPoints());
 
                 }
             }else{
@@ -138,6 +139,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     aGrid[bytTempRow][bytTempCol] = 0;
                     aItems.remove(i);
                     addItem();
+                        p.setScore(aItems.get(i).getPoints());
 
                 }
 
@@ -337,31 +339,37 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                         BufferedReader in;
                         in = new BufferedReader(new FileReader(strName+ ".txt"));
                         String strUserName = in.readLine();
+
                         
                         byte bytPersonalHighScore = Byte.parseByte(in.readLine());
+
                         short shrPersonalHighScore = Byte.parseByte(in.readLine());
-                        Player p = new Player(strName,shrPersonalHighScore);
+                         p = new Player(strName,shrPersonalHighScore);
                     }
                     else
                     {
                         JOptionPane.showMessageDialog(null, "Your account does not exist: creating new account");
                         File file = new File (strName + ".txt");
+
                         //Player p = new Player(strName,0);
-                        Player p = new Player(strName,(short)0);
+
+                         p = new Player(strName,(short)0);
                         //return strName;
                     }
                     bolAccount = false;    
                 }
                 else if(bytAccount == 2)
 
+
                     {
                         File file = new File (strName + ".txt");
                         //Player p = new Player(strName,0);
                         //return strName;
                     }
+
                 {
                     File file = new File (strName + ".txt");
-                    Player p = new Player(strName,(short)0);
+                     p = new Player(strName,(short)0);
                     //return strName;
                     bolAccount = false;
                 }
@@ -379,7 +387,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     public void endMessage(){
         setVisible(false);
         JOptionPane.showMessageDialog(null, "Great Job!");
-        JOptionPane.showMessageDialog(null, "Your high score was:"  );
+        JOptionPane.showMessageDialog(null, "Your score was: " + p.getScore() );
         return;
 
     }
