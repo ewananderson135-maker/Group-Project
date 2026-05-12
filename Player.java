@@ -22,10 +22,10 @@ public class Player implements java.io.Serializable
     private short shrPersonalHighScore;
 
     //constructor class to initialize
-    Player(String un, short s, short phs)
+    Player(String un, short phs)
     {
         this.strUserName = un;
-        this.shrScore = s;
+        this.shrScore = 0;
         this.shrPersonalHighScore = phs;
         
     }

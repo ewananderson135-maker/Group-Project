@@ -27,15 +27,18 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private String strDirection = "RIGHT";
     private JPanel[][] aPanels =
         new JPanel[GRID_LENGTH][GRID_WIDTH];
-
+    
     private ArrayList<Point> aSnake = new ArrayList<Point>();
     private ArrayList<Item> aItems = new ArrayList<Item>();
     private short shrHighScore;
 
+    private int intDelay = 200;
+    private long lngStartTime;
     
     
     public void createFrame()
     {
+        
         setTitle("Serpent Game");
 
         //sets frame size
@@ -52,16 +55,24 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         aSnake.add(new Point(15, 15));
 
         aGrid[bytRowHead][bytColHead] = 1;
-        //g.drawString("Highscore: " + shrHighScore, 50, 50);
+    
         for(byte i = 0; i < 5; i++){
             addItem();
         }
         // when it starts running it will actually intialize timer
-        tmrTimer = new Timer(200, this);
+        
+        
+        
+        lngStartTime = System.currentTimeMillis();
+
+        tmrTimer = new Timer(intDelay, this);
+
         tmrTimer.start();
+        
 
     }
 
+      
     public void createGrid()
     {
         for(int i = 0; i < GRID_LENGTH; i++)
@@ -233,6 +244,20 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
     public void actionPerformed(ActionEvent e)
     {
+        long lngCurrentTime = System.currentTimeMillis();
+
+       if(lngCurrentTime - lngStartTime >= 10000)
+      {  
+         // this stops timer from becomiung way to fast
+         if(intDelay > 50)
+         {
+         intDelay -= 20;
+         }
+
+        tmrTimer.setDelay(intDelay);
+
+         lngStartTime = lngCurrentTime;
+        }
         movePlayer();
     }
 
@@ -299,33 +324,39 @@ public class Interface extends JFrame implements KeyListener, ActionListener
    
    
    
-    public void startMessage(){
+    public  String startMessage(){
         byte bytAccount = 0;
         JOptionPane.showMessageDialog(null, "Hey and welcome to serpent game!\nTo play use the up,down,left and right keys to change the snakes direction.\nCollect the yellow food for 3 points, the green superfood for 10 points, but avoid the red bombs or you'll lose points!\nMake sure you avoid hitting yourself or the wall or you'll lose!\nHave Fun");
         bytAccount = Byte.parseByte(JOptionPane.showInputDialog("Do you have an account? (input: 1.yes or 2.No)"));
         boolean bolAccount = true;
-        
+        String strName = " ";
         do{
             try{
-                String strName = JOptionPane.showInputDialog("UserName: ");
+                strName = JOptionPane.showInputDialog("UserName: ");
                 if(bytAccount == 1)
                 {
                     if(new File(strName +".txt").exists() == true)
                     {
                         BufferedReader in;
                         in = new BufferedReader(new FileReader(strName+ ".txt"));
+                        String strUserName = in.readLine();
                         byte bytScore = Byte.parseByte(in.readLine());
                         byte bytHighScore = Byte.parseByte(in.readLine());
                         
                     }
-                    
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Your account does not exist: creating new account");
+                        File file = new File (strName + ".txt");
+                        //return strName;
+                    }
                     
                 }
                 else if(bytAccount == 2)
 
                     {
                         File file = new File (strName + ".txt");
-
+                        //return strName;
                     }
                     bolAccount = false;
             }
@@ -334,8 +365,10 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             }
 
         }while(bolAccount);
-
+        return strName;
     }
+    
+    
 
     public void endMessage(){
         setVisible(false);
