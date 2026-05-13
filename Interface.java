@@ -490,7 +490,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             {
 
                 BufferedReader br = new BufferedReader(new FileReader("HighScore.txt"));
-                //shrHighScore = Short.parseShort(br.readLine());
+                shrHighScore = Short.parseShort(br.readLine());
                 br.close();    
             } catch(IOException e)
             {
