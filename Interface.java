@@ -169,12 +169,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     aItems.remove(i);
                     addItem();
                     
-                    if(shrScore < 0)
-                    {
-                        System.exit(0);
-                        endMessage();
-                        
-                    }
+                    
             }else if(aItems.get(i) instanceof Food){
                 if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
                     bolGrow = true;
@@ -545,8 +540,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         if(new File("HighScore.txt").exists() == true){
             try
             {
-
-
                 BufferedReader br = new BufferedReader(new FileReader("HighScore.txt"));
                 shrHighScore = Short.parseShort(br.readLine());
                 br.close();    
