@@ -52,7 +52,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         setLayout(new BorderLayout());
         setVisible(true);
 
-        
         pnlTop = new JPanel();
         pnlTop.setBackground(Color.BLACK);
         lblScore = new JLabel("Score: 0");
@@ -95,7 +94,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         tmrTimer = new Timer(intDelay, this);
         tmrTimer.start();
     }
-
 
     public void createGrid()
     {
@@ -153,39 +151,39 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     p.setScore(aItems.get(i).getPoints());
                     aItems.remove(i);
                     addItem();
-                    
-                    
-            }else if(aItems.get(i) instanceof Food){
-                if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
-                    bolGrow = true;
-                    aGrid[bytTempRow][bytTempCol] = 0;
-                    p.setScore(aItems.get(i).getPoints());
-                    aItems.remove(i);
-                    addItem();
 
-                }
-            }else{
-                if(((SuperFood)(aItems.get(i))).getRow() == bytTempRow && ((SuperFood)(aItems.get(i))).getCol() == bytTempCol ){
-                    bolGrow = true;
-                    aGrid[bytTempRow][bytTempCol] = 0;
-                    p.setScore(aItems.get(i).getPoints());
+                }else if(aItems.get(i) instanceof Food){
+                    if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
+                        bolGrow = true;
+                        aGrid[bytTempRow][bytTempCol] = 0;
+                        p.setScore(aItems.get(i).getPoints());
+                        aItems.remove(i);
+                        addItem();
 
-                    aItems.remove(i);
-                    addItem();
+                    }
+                }else{
+                    if(((SuperFood)(aItems.get(i))).getRow() == bytTempRow && ((SuperFood)(aItems.get(i))).getCol() == bytTempCol ){
+                        bolGrow = true;
+                        aGrid[bytTempRow][bytTempCol] = 0;
+                        p.setScore(aItems.get(i).getPoints());
 
+                        aItems.remove(i);
+                        addItem();
+
+                    }
                 }
             }
-        }
-        if(!bolGrow)
-        {
-            Point pTail = aSnake.remove(aSnake.size() - 1);
+            if(!bolGrow)
+            {
+                Point pTail = aSnake.remove(aSnake.size() - 1);
 
-            aGrid[pTail.x][pTail.y] = 0;
-        }
+                aGrid[pTail.x][pTail.y] = 0;
+            }
 
-        updateBoard();
+            updateBoard();
+        }
     }
-}
+
     public boolean checkBoundaries(byte bytTempRow, byte bytTempColumn){
 
         for(byte i = 0; i< aSnake.size(); i++)
@@ -408,7 +406,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     bolAccount = false;
                 }
 
-                
             }
             catch(Exception e){
                 JOptionPane.showMessageDialog(null, "Wrong Input.");
@@ -465,20 +462,11 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         }
 
     }
-    
-    
 
 
     
     
     
-    
-    
-    
-
-
-
-
 
 
     public void uploadHighScore()
