@@ -441,10 +441,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     
 
 
-    public void writeHighScore(){
-        //shrHighScore
-        
-    }
+    
 
 
     public void uploadHighScore()
@@ -466,7 +463,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             {
                 e.printStackTrace();
             }
-
         }else{
             shrHighScore = 0;
 
