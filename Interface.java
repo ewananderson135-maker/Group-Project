@@ -484,7 +484,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
     public void uploadHighScore()
     {
-
+        short shrHighScore;
         if(new File("HighScore.txt").exists() == true){
             try
             {
