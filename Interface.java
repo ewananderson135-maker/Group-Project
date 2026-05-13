@@ -79,10 +79,10 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
         add(pnlGrid, BorderLayout.CENTER);
         createGrid();
-
+        
         aSnake.add(new Point(bytRowHead, bytColHead));
+        aSnake.add(new Point(15,15));
         addKeyListener(this);
-        aSnake.add(new Point(15, 15));
 
         aGrid[bytRowHead][bytColHead] = 1;
 
@@ -155,7 +155,9 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     aItems.remove(i);
                     addItem();
 
-                }else if(aItems.get(i) instanceof Food){
+                
+            }
+            }else if(aItems.get(i) instanceof Food){
                     if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
                         bolGrow = true;
                         aGrid[bytTempRow][bytTempCol] = 0;
@@ -175,32 +177,17 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
                     }
                 }
+            
             }
             if(!bolGrow)
             {
                  pTail = aSnake.remove(aSnake.size() - 1);
 
                     
-            }else if(aItems.get(i) instanceof Food){
-                if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
-                    bolGrow = true;
-                    aGrid[bytTempRow][bytTempCol] = 0;
-                    p.setScore(aItems.get(i).getPoints());
-                    aItems.remove(i);
-                    addItem();
-                    
-                    
-                    /*
-                     * ATTENTION pTail only created if the if runs 
-                     * Declared point pTail at the top of the class instead of in the above if.
-                     */
-                    aGrid[pTail.x][pTail.y] = 0;
-                }
-
-                updateBoard();
             }
+            updateBoard();
         }
-    }
+    
 
     public boolean checkBoundaries(byte bytTempRow, byte bytTempColumn){
 
@@ -484,7 +471,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
     public void uploadHighScore()
     {
-        short shrHighScore;
         if(new File("HighScore.txt").exists() == true){
             try
             {
