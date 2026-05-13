@@ -39,6 +39,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private JLabel lblScore;
     private JLabel lblPersonalHigh;
     private JLabel lblHighScore; 
+    Point pTail;
 
     public void createFrame()
     {
@@ -115,6 +116,8 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         byte bytTempRow = (byte)pHead.x;
         byte bytTempCol = (byte)pHead.y;
         boolean bolGrow = false;
+        
+         
 
         if(strDirection.equals("UP"))
         {
@@ -175,7 +178,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             }
             if(!bolGrow)
             {
-                Point pTail = aSnake.remove(aSnake.size() - 1);
+                 pTail = aSnake.remove(aSnake.size() - 1);
 
                     
             }else if(aItems.get(i) instanceof Food){
@@ -185,7 +188,12 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     p.setScore(aItems.get(i).getPoints());
                     aItems.remove(i);
                     addItem();
-
+                    
+                    
+                    /*
+                     * ATTENTION pTail only created if the if runs 
+                     * Declared point pTail at the top of the class instead of in the above if.
+                     */
                     aGrid[pTail.x][pTail.y] = 0;
                 }
 
@@ -482,7 +490,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             {
 
                 BufferedReader br = new BufferedReader(new FileReader("HighScore.txt"));
-                shrHighScore = Short.parseShort(br.readLine());
+                //shrHighScore = Short.parseShort(br.readLine());
                 br.close();    
             } catch(IOException e)
             {
