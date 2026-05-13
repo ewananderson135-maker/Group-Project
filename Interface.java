@@ -153,8 +153,8 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     p.setScore(aItems.get(i).getPoints());
                     aItems.remove(i);
                     addItem();
-
-                }
+                    
+                    
             }else if(aItems.get(i) instanceof Food){
                 if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
                     bolGrow = true;
@@ -185,7 +185,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
         updateBoard();
     }
-
+}
     public boolean checkBoundaries(byte bytTempRow, byte bytTempColumn){
 
         for(byte i = 0; i< aSnake.size(); i++)
@@ -468,6 +468,19 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     
     
 
+
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
     public void uploadHighScore()
     {
 
@@ -482,7 +495,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             {
                 e.printStackTrace();
             }
-
         }else{
             shrHighScore = 0;
 
