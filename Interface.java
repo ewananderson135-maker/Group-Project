@@ -373,7 +373,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         do{
             try{
 
-                if (bytAccount <1 && bytAccount > 2)
+                if (bytAccount <1 || bytAccount > 2)
                 {
                     bytAccount = Byte.parseByte(JOptionPane.showInputDialog("input: 1.Yes or 2.No"));
                     bolAccount = true;  
