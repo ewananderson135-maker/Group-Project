@@ -152,7 +152,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     aItems.remove(i);
                     addItem();
 
-
                 }else if(aItems.get(i) instanceof Food){
                     if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
                         bolGrow = true;
@@ -179,7 +178,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                 Point pTail = aSnake.remove(aSnake.size() - 1);
 
                     
-                    
             }else if(aItems.get(i) instanceof Food){
                 if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
                     bolGrow = true;
@@ -188,14 +186,14 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     aItems.remove(i);
                     addItem();
 
+                    aGrid[pTail.x][pTail.y] = 0;
+                }
 
-                aGrid[pTail.x][pTail.y] = 0;
+                updateBoard();
             }
-
-            updateBoard();
         }
     }
-}
+
     public boolean checkBoundaries(byte bytTempRow, byte bytTempColumn){
 
         for(byte i = 0; i< aSnake.size(); i++)
@@ -476,15 +474,12 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     }
 
 
-
-
     public void uploadHighScore()
     {
 
         if(new File("HighScore.txt").exists() == true){
             try
             {
-
 
                 BufferedReader br = new BufferedReader(new FileReader("HighScore.txt"));
                 shrHighScore = Short.parseShort(br.readLine());
