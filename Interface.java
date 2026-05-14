@@ -320,7 +320,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         }
 
         for(byte i = 0; i < aSnake.size(); i++ ){
-            byte bytRandom =  (byte)(Math.random() * 5);
+            byte bytRandom =  (byte)(Math.random() * 6);
             
             pTemp = aSnake.get(i);
             if(bytRandom == 0){
@@ -334,11 +334,15 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
         }
         else if(bytRandom == 3){
-            aPanels[pTemp.x][pTemp.y].setBackground(Color.MAGENTA);
+            aPanels[pTemp.x][pTemp.y].setBackground(Color.CYAN);
 
         }
         else if(bytRandom == 4){
             aPanels[pTemp.x][pTemp.y].setBackground(Color.WHITE);
+
+        }
+        else if(bytRandom == 5){
+            aPanels[pTemp.x][pTemp.y].setBackground(Color.LIGHT_GRAY);
 
         }
         
@@ -518,6 +522,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             {
                 e.printStackTrace();
             }
+
         }else{
             shrHighScore = 0;
 
