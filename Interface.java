@@ -120,7 +120,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         byte bytTempRow = (byte)pHead.x;
         byte bytTempCol = (byte)pHead.y;
         boolean bolGrow = false;
-        System.out.println(System.currentTimeMillis());
     
          
 
@@ -321,8 +320,28 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         }
 
         for(byte i = 0; i < aSnake.size(); i++ ){
+            byte bytRandom =  (byte)(Math.random() * 5);
+            
             pTemp = aSnake.get(i);
+            if(bytRandom == 0){
             aPanels[pTemp.x][pTemp.y].setBackground(Color.GREEN);
+        }else if(bytRandom == 1){
+             aPanels[pTemp.x][pTemp.y].setBackground(Color.ORANGE);
+
+        }
+        else if(bytRandom == 2){
+            aPanels[pTemp.x][pTemp.y].setBackground(Color.YELLOW);
+
+        }
+        else if(bytRandom == 3){
+            aPanels[pTemp.x][pTemp.y].setBackground(Color.MAGENTA);
+
+        }
+        else if(bytRandom == 4){
+            aPanels[pTemp.x][pTemp.y].setBackground(Color.WHITE);
+
+        }
+        
         }
         for(byte i = 0; i < aItems.size(); i++){
             if(aItems.get(i) instanceof Bomb){
