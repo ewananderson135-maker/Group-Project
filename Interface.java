@@ -326,23 +326,21 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             else if(bytRandom == 2){
                 aPanels[pTemp.x][pTemp.y].setBackground(Color.YELLOW);
 
-        }
-        else if(bytRandom == 3){
-            aPanels[pTemp.x][pTemp.y].setBackground(Color.CYAN);
-            }
-            else if(bytRandom == 3){
-                aPanels[pTemp.x][pTemp.y].setBackground(Color.MAGENTA);
+        }else if(bytRandom == 3){
+                        aPanels[pTemp.x][pTemp.y].setBackground(Color.CYAN);
 
+        }
+        
+    
+        else if(bytRandom == 5){
+            aPanels[pTemp.x][pTemp.y].setBackground(Color.LIGHT_GRAY);
             }
             else if(bytRandom == 4){
                 aPanels[pTemp.x][pTemp.y].setBackground(Color.WHITE);
 
         }
-        else if(bytRandom == 5){
-            aPanels[pTemp.x][pTemp.y].setBackground(Color.LIGHT_GRAY);
-
-        }
         
+            
             
 
         }
