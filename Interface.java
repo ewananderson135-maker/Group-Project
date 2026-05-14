@@ -81,7 +81,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
         add(pnlGrid, BorderLayout.CENTER);
         createGrid();
-        
+
         aSnake.add(new Point(bytRowHead, bytColHead));
         aSnake.add(new Point(15,15));
         addKeyListener(this);
@@ -120,8 +120,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         byte bytTempRow = (byte)pHead.x;
         byte bytTempCol = (byte)pHead.y;
         boolean bolGrow = false;
-    
-         
 
         if(strDirection.equals("UP"))
         {
@@ -159,42 +157,38 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     aItems.remove(i);
                     addItem();
 
-                
-            }
-            }else if(aItems.get(i) instanceof Food){
-                    if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
-                        bolGrow = true;
-                        aGrid[bytTempRow][bytTempCol] = 0;
-                        p.setScore(aItems.get(i).getPoints());
-                        aItems.remove(i);
-                        addItem();
-
-                    }
-                }else{
-                    if(((SuperFood)(aItems.get(i))).getRow() == bytTempRow && ((SuperFood)(aItems.get(i))).getCol() == bytTempCol ){
-                        bolGrow = true;
-                        aGrid[bytTempRow][bytTempCol] = 0;
-                        p.setScore(aItems.get(i).getPoints());
-
-                        aItems.remove(i);
-                        addItem();
-
-                    }
                 }
-            
-            }
-            if(!bolGrow)
-            {
-                 pTail = aSnake.remove(aSnake.size() - 1);
+            }else if(aItems.get(i) instanceof Food){
+                if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
+                    bolGrow = true;
+                    aGrid[bytTempRow][bytTempCol] = 0;
+                    p.setScore(aItems.get(i).getPoints());
+                    aItems.remove(i);
+                    addItem();
 
-                    
+                }
+            }else{
+                if(((SuperFood)(aItems.get(i))).getRow() == bytTempRow && ((SuperFood)(aItems.get(i))).getCol() == bytTempCol ){
+                    bolGrow = true;
+                    aGrid[bytTempRow][bytTempCol] = 0;
+                    p.setScore(aItems.get(i).getPoints());
+
+                    aItems.remove(i);
+                    addItem();
+
+                }
             }
-            updateBoard();
+
         }
-    
+        if(!bolGrow)
+        {
+            pTail = aSnake.remove(aSnake.size() - 1);
+
+        }
+        updateBoard();
+    }
 
     public boolean checkBoundaries(byte bytTempRow, byte bytTempColumn){
-
         for(byte i = 0; i< aSnake.size(); i++)
         {
             byte bytRow, bytCol;
@@ -219,8 +213,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         {
             return true;
         }
-        
-        
+
     }
 
     public void keyPressed(KeyEvent e)
@@ -279,8 +272,8 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     {
         long lngCurrentTime = System.currentTimeMillis();
         long lngCurrentTime2 = System.currentTimeMillis();
-        
-                    if(lngCurrentTime2 - lngStartTime2 >= 30000 && bolEvent == true){
+
+        if(lngCurrentTime2 - lngStartTime2 >= 30000 && bolEvent == true){
             bolEvent = false;
             for(byte i = 0; i < 20; i++){
                 addItem();
@@ -299,7 +292,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             lngStartTime = lngCurrentTime;
         }
 
-        
         movePlayer();
     }
 
@@ -321,27 +313,27 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
         for(byte i = 0; i < aSnake.size(); i++ ){
             byte bytRandom =  (byte)(Math.random() * 5);
-            
+
             pTemp = aSnake.get(i);
             if(bytRandom == 0){
-            aPanels[pTemp.x][pTemp.y].setBackground(Color.GREEN);
-        }else if(bytRandom == 1){
-             aPanels[pTemp.x][pTemp.y].setBackground(Color.ORANGE);
+                aPanels[pTemp.x][pTemp.y].setBackground(Color.GREEN);
+            }else if(bytRandom == 1){
+                aPanels[pTemp.x][pTemp.y].setBackground(Color.ORANGE);
 
-        }
-        else if(bytRandom == 2){
-            aPanels[pTemp.x][pTemp.y].setBackground(Color.YELLOW);
+            }
+            else if(bytRandom == 2){
+                aPanels[pTemp.x][pTemp.y].setBackground(Color.YELLOW);
 
-        }
-        else if(bytRandom == 3){
-            aPanels[pTemp.x][pTemp.y].setBackground(Color.MAGENTA);
+            }
+            else if(bytRandom == 3){
+                aPanels[pTemp.x][pTemp.y].setBackground(Color.MAGENTA);
 
-        }
-        else if(bytRandom == 4){
-            aPanels[pTemp.x][pTemp.y].setBackground(Color.WHITE);
+            }
+            else if(bytRandom == 4){
+                aPanels[pTemp.x][pTemp.y].setBackground(Color.WHITE);
 
-        }
-        
+            }
+
         }
         for(byte i = 0; i < aItems.size(); i++){
             if(aItems.get(i) instanceof Bomb){
@@ -361,7 +353,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     }
 
     public void addItem(){
-        
+
         byte bytRowRandom = (byte)(Math.random() * GRID_LENGTH);
         byte bytColRandom = (byte) (Math.random() * GRID_WIDTH);
         byte bytItemType;
@@ -382,7 +374,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             aItems.add(new SuperFood(bytRowRandom, bytColRandom));
             aGrid[bytRowRandom][bytColRandom] = 2;
         }
-    
+
     }
 
     public  String startMessage(){
@@ -407,12 +399,24 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
                     if(new File(strName +".txt").exists() == true)
                     {
-                        BufferedReader in;
-                        in = new BufferedReader(new FileReader(strName+ ".txt"));
-                        String strUserName = in.readLine();
 
-                        short shrPersonalHighScore = Byte.parseByte(in.readLine());
-                        p = new Player(strName,shrPersonalHighScore);
+                        try{
+                            BufferedReader in;
+                            in = new BufferedReader(new FileReader(strName+ ".txt"));
+                            String strUserName = in.readLine();
+
+                            short shrPersonalHighScore = Byte.parseByte(in.readLine());
+                            p = new Player(strName,shrPersonalHighScore);
+                        }
+                        catch(FileNotFoundException e)
+                        {
+                            System.out.println("Error: Cannot open file for reading");
+                        }
+
+                        catch(IOException e)
+                        {
+                            System.out.println("Error: Cannot read from file");
+                        }
 
                     }
                     else
@@ -503,7 +507,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         }
 
     }
-
 
     public void uploadHighScore()
     {
