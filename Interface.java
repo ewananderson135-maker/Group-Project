@@ -27,6 +27,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private String strDirection = "RIGHT";
     private JPanel[][] aPanels =
         new JPanel[GRID_LENGTH][GRID_WIDTH];
+    private boolean bolEvent = true;
 
     private ArrayList<Point> aSnake = new ArrayList<Point>();
     private ArrayList<Item> aItems = new ArrayList<Item>();
@@ -34,6 +35,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private Player p;
     private int intDelay = 200;
     private long lngStartTime;
+    private long lngStartTime2;
     private JPanel pnlTop;
     private JPanel pnlGrid;
     private JLabel lblScore;
@@ -92,6 +94,8 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         // when it starts running it will actually intialize timer
 
         lngStartTime = System.currentTimeMillis();
+        lngStartTime2 = System.currentTimeMillis();
+
         tmrTimer = new Timer(intDelay, this);
         tmrTimer.start();
     }
@@ -116,7 +120,8 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         byte bytTempRow = (byte)pHead.x;
         byte bytTempCol = (byte)pHead.y;
         boolean bolGrow = false;
-        
+        System.out.println(System.currentTimeMillis());
+    
          
 
         if(strDirection.equals("UP"))
@@ -215,7 +220,8 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         {
             return true;
         }
-
+        
+        
     }
 
     public void keyPressed(KeyEvent e)
@@ -273,7 +279,14 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     public void actionPerformed(ActionEvent e)
     {
         long lngCurrentTime = System.currentTimeMillis();
-
+        long lngCurrentTime2 = System.currentTimeMillis();
+        
+                    if(lngCurrentTime2 - lngStartTime2 >= 30000 && bolEvent == true){
+            bolEvent = false;
+            for(byte i = 0; i < 20; i++){
+                addItem();
+            }
+        }
         if(lngCurrentTime - lngStartTime >= 10000)
         {  
             // this stops timer from becomiung way to fast
@@ -286,6 +299,8 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
             lngStartTime = lngCurrentTime;
         }
+
+        
         movePlayer();
     }
 
@@ -327,6 +342,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     }
 
     public void addItem(){
+        
         byte bytRowRandom = (byte)(Math.random() * GRID_LENGTH);
         byte bytColRandom = (byte) (Math.random() * GRID_WIDTH);
         byte bytItemType;
@@ -347,6 +363,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             aItems.add(new SuperFood(bytRowRandom, bytColRandom));
             aGrid[bytRowRandom][bytColRandom] = 2;
         }
+    
     }
 
     public  String startMessage(){
