@@ -319,6 +319,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     public void run(){
         uploadHighScore();
         startMessage();
+        shop(p.getTotalScore());
 
         createFrame();
         updateBoard();
