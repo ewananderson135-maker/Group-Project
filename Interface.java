@@ -527,5 +527,39 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         }
 
     }
+    
+    public byte shop(byte money)
+    {
+        byte bytChoice;
+        bytChoice = Byte.parseByte(JOptionPane.showInputDialog("Welcome to the shop! You have " + "$\n1.Exit \n2.Purple(100) \n3. Orange(300) \n4.Yellow(450) \n5.Rainbow(600)"));
+        
+        if(bytChoice == 1)
+        {
+            return money;
+        }
+        else if(bytChoice == 2)
+        {
+            if(money>=100)
+            {
+                money = money -100;
+            }
+        }
+        else if(bytChoice == 3)
+        {
+            
+        }else if(bytChoice == 4)
+        {
+            
+        }
+        else if(bytChoice == 5)
+        {
+            
+        }
+        else{
+            strName =  JOptionPane.showInputDialog("UserName: ");
+
+        }
+        return money;
+    }
 } 
 
