@@ -559,7 +559,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
     }
     
-    public byte shop(short shrMoney)
+    public short shop(short shrMoney)
     {
         
         boolean bolShop = true;
