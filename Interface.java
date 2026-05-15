@@ -407,7 +407,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
     }
 
-    public  String startMessage(){
+    public  void startMessage(){
         byte bytAccount = 0;
         JOptionPane.showMessageDialog(null, "Hey and welcome to serpent game!\nTo play use the up,down,left and right keys to change the snakes direction.\nCollect the yellow food for 3 points, the green superfood for 10 points, but avoid the red bombs or you'll lose points!\nMake sure you avoid hitting yourself or the wall or you'll lose!\nHave Fun");
         bytAccount = Byte.parseByte(JOptionPane.showInputDialog("Do you have an account? (input: 1.Yes or 2.No)"));
@@ -418,7 +418,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         do{
             try{
 
-                if (bytAccount <1 || bytAccount > 2)
+                if (bytAccount != 1 || bytAccount != 2)
                 {
                     bytAccount = Byte.parseByte(JOptionPane.showInputDialog("input: 1.Yes or 2.No"));
                     bolAccount = true;  
@@ -435,8 +435,10 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                             in = new BufferedReader(new FileReader(strName+ ".txt"));
                             String strUserName = in.readLine();
 
-                            short shrPersonalHighScore = Byte.parseByte(in.readLine());
-                            p = new Player(strName,shrPersonalHighScore);
+                            short shrPersonalHighScore = Short.parseShort(in.readLine());
+                            
+                            long lngTotalScore = Long.parseLong(in.readLine());
+                            p = new Player(strName,shrPersonalHighScore, lngTotalScore);
                         }
                         catch(FileNotFoundException e)
                         {
@@ -455,15 +457,12 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                         JOptionPane.showMessageDialog(null, "Your account does not exist: creating new account");
                         File file = new File (strName + ".txt");
 
-                        //Player p = new Player(strName,0);
+                        
 
-                        p = new Player(strName,(short)0);
+                        p = new Player(strName,(short)0, (long) 0);
 
-                        p = new Player(strName,(short)0);
+        
 
-                        Player p = new Player(strName,(short)0);
-
-                        //return strName;
                     }
                     bolAccount = false;    
                 }
@@ -475,9 +474,8 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     File file = new File (strName + ".txt");
                     //Player p = new Player(strName,0);
 
-                    p = new Player(strName,(short)0);
+                    p = new Player(strName,(short)0, (long)0);
 
-                    //return strName;
                     bolAccount = false;
                 }
 
@@ -487,7 +485,6 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             }
 
         }while(bolAccount);
-        return strName;
     }
 
     public void endMessage(){
@@ -509,6 +506,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             PrintWriter out = new PrintWriter(new FileWriter(p.getUserName() + ".txt"));
             out.println(p.getUserName());
             out.println(String.valueOf(p.getPersonalHighScore()));
+            out.println(String.valueOf(p.getTotalScore()));
             out.close();
         }catch (IOException e)
         {
@@ -560,43 +558,75 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
     }
     
-    public byte shop(byte money)
+    public byte shop(byte bytMoney)
     {
         byte bytChoice;
-        bytChoice = Byte.parseByte(JOptionPane.showInputDialog("Welcome to the shop! You have " + "$\n1.Exit \n2.Purple(100) \n3. Orange(300) \n4.Yellow(450) \n5.Rainbow(600)"));
+        boolean bolShop = true;
+        do
+        {
+            
+            
+        }while(bolShop);
+        bytChoice = Byte.parseByte(JOptionPane.showInputDialog("Welcome to the shop! You have " + "$\n1.Exit \n2.Green(0$) /n3.Purple(100$) \n4. Orange(300$) \n5.Yellow(450$) \n6.Rainbow(600$)\n\nYou currently have: " + p.getTotalScore() + "$"));
         
         if(bytChoice == 1)
         {
-            return money;
+            return bytMoney;
         }
         else if(bytChoice == 2)
         {
-            if(money>=100)
+            if(bytMoney>=100)
             {
-                money = (byte)(money -100);
+                bytMoney = (byte)(bytMoney -100);
+            }
+            else
+            {
+                 bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
+                 
+            }
+        }
+        else if(bytChoice == 3)
+        {
+            if(bytMoney>=300)
+            {
+                bytMoney = (byte)(bytMoney -300);
+            }
+            else
+            {
+                 bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
+
+            }            
+        }else if(bytChoice == 4)
+        {
+            if(bytMoney>=450)
+            {
+                bytMoney = (byte)(bytMoney -450);
             }
             else
             {
                  bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
 
             }
-        }
-        else if(bytChoice == 3)
-        {
-            
-        }else if(bytChoice == 4)
-        {
             
         }
         else if(bytChoice == 5)
         {
+            if(bytMoney>=600)
+            {
+                bytMoney = (byte)(bytMoney -600);
+            }
+            else
+            {
+                 bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
+
+            }
             
         }
         else{
             bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
 
         }
-        return money;
+        return bytMoney;
     }
 } 
 
