@@ -319,7 +319,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     public void run(){
         uploadHighScore();
         startMessage();
-        shop(p.getTotalScore());
+        p.setTotalScore(shop(p.getTotalScore()));
 
         createFrame();
         updateBoard();
@@ -438,8 +438,8 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
                             short shrPersonalHighScore = Short.parseShort(in.readLine());
                             
-                            long lngTotalScore = Long.parseLong(in.readLine());
-                            p = new Player(strName,shrPersonalHighScore, lngTotalScore);
+                            short shrTotalScore = Short.parseShort(in.readLine());
+                            p = new Player(strName,shrPersonalHighScore, shrTotalScore);
                         }
                         catch(FileNotFoundException e)
                         {
@@ -460,7 +460,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
                         
 
-                        p = new Player(strName,(short)0, (long) 0);
+                        p = new Player(strName,(short)0, (short) 0);
 
         
 
@@ -473,9 +473,8 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                     strName =  JOptionPane.showInputDialog("UserName: ");
 
                     File file = new File (strName + ".txt");
-                    //Player p = new Player(strName,0);
 
-                    p = new Player(strName,(short)0, (long)0);
+                    p = new Player(strName,(short)0, (short)0);
 
                     bolAccount = false;
                 }
