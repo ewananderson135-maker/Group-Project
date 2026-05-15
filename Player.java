@@ -23,12 +23,12 @@ public class Player implements java.io.Serializable
     private long lngTotalScore;
 
     //constructor class to initialize
-    Player(String un, short phs)
+    Player(String un, short phs, long ts)
     {
         this.strUserName = un;
         this.shrScore = 0;
         this.shrPersonalHighScore = phs;
-        this.lngTotalScore =0;
+        this.lngTotalScore = ts;
     }
     
     //default constructor to populate with default values
