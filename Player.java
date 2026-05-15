@@ -77,6 +77,13 @@ public class Player implements java.io.Serializable
     }
     //Saves and stores the player’s info when opening an existing account. It is already populated with the user’s name, score, and personal high score and can be further updated.
     
+    //getter method for lngTotalScore to allow access since private
+    public long getTotalScore()
+    {
+        return this.lngTotalScore;
+        
+    }
+    
     //setter method for lngTotalScore to set and allow since though private
     public void setTotalScore(long ts)
     {
