@@ -556,10 +556,9 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
         do
         {
-            bytChoice = Byte.parseByte(JOptionPane.showInputDialog("\n1.Green(0$) /n2.Purple(100$) \n3. Orange(300$) \n4.Yellow(450$) \n5.Rainbow(600$)\n\nYou currently have: " + p.getTotalScore() + "$"));
+            bytChoice = Byte.parseByte(JOptionPane.showInputDialog("\n1.Green(0$) /n2.Cyan(100$) \n3. Orange(300$) \n4.Yellow(450$) \n5.Rainbow(600$)\n\nYou currently have: " + p.getTotalScore() + "$"));
             if(bytChoice == 1)
             {
-                
                 return 0;
             }
             else if(bytChoice == 2)
