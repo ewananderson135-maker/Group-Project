@@ -617,7 +617,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
             }
             else{
-                bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
+                   JOptionPane.showMessageDialog(null, "Wrong input!");
 
             }
 
