@@ -541,7 +541,12 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         {
             if(money>=100)
             {
-                money = money -100;
+                money = (byte)(money -100);
+            }
+            else
+            {
+                 bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
+
             }
         }
         else if(bytChoice == 3)
@@ -556,7 +561,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             
         }
         else{
-            strName =  JOptionPane.showInputDialog("UserName: ");
+            bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
 
         }
         return money;
