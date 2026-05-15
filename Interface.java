@@ -28,6 +28,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private JPanel[][] aPanels =
         new JPanel[GRID_LENGTH][GRID_WIDTH];
     private boolean bolEvent = true;
+    private boolean bolEvent2 = true;
 
     private ArrayList<Point> aSnake = new ArrayList<Point>();
     private ArrayList<Item> aItems = new ArrayList<Item>();
@@ -36,6 +37,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private int intDelay = 200;
     private long lngStartTime;
     private long lngStartTime2;
+    private long lngStartTime3;
     private JPanel pnlTop;
     private JPanel pnlGrid;
     private JLabel lblScore;
@@ -95,7 +97,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
         lngStartTime = System.currentTimeMillis();
         lngStartTime2 = System.currentTimeMillis();
-
+        lngStartTime3 = System.currentTimeMillis();
         tmrTimer = new Timer(intDelay, this);
         tmrTimer.start();
     }
@@ -272,11 +274,30 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     {
         long lngCurrentTime = System.currentTimeMillis();
         long lngCurrentTime2 = System.currentTimeMillis();
+        long lngCurrentTime3 = System.currentTimeMillis();
 
         if(lngCurrentTime2 - lngStartTime2 >= 30000 && bolEvent == true){
             bolEvent = false;
             for(byte i = 0; i < 20; i++){
                 addItem();
+            }
+        }
+        if(lngCurrentTime3 - lngStartTime3 >= 40000 && bolEvent2 == true){
+            bolEvent2 = false;
+            for(int i = aItems.size() - 1; i > 4 ; i--){
+                if(aItems.get(i) instanceof Bomb){
+                aGrid[((Bomb)aItems.get(i)).getRow()][((Bomb)aItems.get(i)).getCol()] = 0;
+
+            }else if(aItems.get(i) instanceof Food){
+                aGrid[((Food)aItems.get(i)).getRow()][((Food)aItems.get(i)).getCol()] = 0;
+
+            }else{
+                                aGrid[((SuperFood)aItems.get(i)).getRow()][((SuperFood)aItems.get(i)).getCol()] = 0;
+
+            }
+
+                aItems.remove(i);
+                
             }
         }
         if(lngCurrentTime - lngStartTime >= 10000)
@@ -312,7 +333,9 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         }
 
         for(byte i = 0; i < aSnake.size(); i++ ){
-            byte bytRandom =  (byte)(Math.random() * 5);
+            byte bytRandom =  (byte)(Math.random() * 6);
+            
+
 
             pTemp = aSnake.get(i);
             if(bytRandom == 0){
@@ -324,15 +347,22 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             else if(bytRandom == 2){
                 aPanels[pTemp.x][pTemp.y].setBackground(Color.YELLOW);
 
-            }
-            else if(bytRandom == 3){
-                aPanels[pTemp.x][pTemp.y].setBackground(Color.MAGENTA);
+        }else if(bytRandom == 3){
+                        aPanels[pTemp.x][pTemp.y].setBackground(Color.CYAN);
 
+        }
+        
+    
+        else if(bytRandom == 5){
+            aPanels[pTemp.x][pTemp.y].setBackground(Color.LIGHT_GRAY);
             }
             else if(bytRandom == 4){
                 aPanels[pTemp.x][pTemp.y].setBackground(Color.WHITE);
 
-            }
+        }
+        
+            
+            
 
         }
         for(byte i = 0; i < aItems.size(); i++){
@@ -349,7 +379,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         lblScore.setText("Score: " + p.getScore());
         repaint();
         revalidate();
-
+    
     }
 
     public void addItem(){
@@ -521,6 +551,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             {
                 e.printStackTrace();
             }
+
         }else{
             shrHighScore = 0;
 
