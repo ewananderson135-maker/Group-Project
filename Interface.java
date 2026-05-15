@@ -28,6 +28,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private JPanel[][] aPanels =
         new JPanel[GRID_LENGTH][GRID_WIDTH];
     private boolean bolEvent = true;
+    private boolean bolEvent2 = true;
 
     private ArrayList<Point> aSnake = new ArrayList<Point>();
     private ArrayList<Item> aItems = new ArrayList<Item>();
@@ -36,6 +37,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     private int intDelay = 200;
     private long lngStartTime;
     private long lngStartTime2;
+    private long lngStartTime3;
     private JPanel pnlTop;
     private JPanel pnlGrid;
     private JLabel lblScore;
@@ -95,7 +97,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
         lngStartTime = System.currentTimeMillis();
         lngStartTime2 = System.currentTimeMillis();
-
+        lngStartTime3 = System.currentTimeMillis();
         tmrTimer = new Timer(intDelay, this);
         tmrTimer.start();
     }
@@ -272,11 +274,30 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     {
         long lngCurrentTime = System.currentTimeMillis();
         long lngCurrentTime2 = System.currentTimeMillis();
+        long lngCurrentTime3 = System.currentTimeMillis();
 
         if(lngCurrentTime2 - lngStartTime2 >= 30000 && bolEvent == true){
             bolEvent = false;
             for(byte i = 0; i < 20; i++){
                 addItem();
+            }
+        }
+        if(lngCurrentTime3 - lngStartTime3 >= 40000 && bolEvent2 == true){
+            bolEvent2 = false;
+            for(int i = aItems.size() - 1; i > 4 ; i--){
+                if(aItems.get(i) instanceof Bomb){
+                aGrid[((Bomb)aItems.get(i)).getRow()][((Bomb)aItems.get(i)).getCol()] = 0;
+
+            }else if(aItems.get(i) instanceof Food){
+                aGrid[((Food)aItems.get(i)).getRow()][((Food)aItems.get(i)).getCol()] = 0;
+
+            }else{
+                                aGrid[((SuperFood)aItems.get(i)).getRow()][((SuperFood)aItems.get(i)).getCol()] = 0;
+
+            }
+
+                aItems.remove(i);
+                
             }
         }
         if(lngCurrentTime - lngStartTime >= 10000)
@@ -470,6 +491,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     }
 
     public void endMessage(){
+        p.setTotalScore(p.getScore());
         if(p.getPersonalHighScore() <= p.getScore()){
             p.setPersonalHighScore(p.getScore());
         }
@@ -536,6 +558,45 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
         }
 
+    }
+    
+    public byte shop(byte money)
+    {
+        byte bytChoice;
+        bytChoice = Byte.parseByte(JOptionPane.showInputDialog("Welcome to the shop! You have " + "$\n1.Exit \n2.Purple(100) \n3. Orange(300) \n4.Yellow(450) \n5.Rainbow(600)"));
+        
+        if(bytChoice == 1)
+        {
+            return money;
+        }
+        else if(bytChoice == 2)
+        {
+            if(money>=100)
+            {
+                money = (byte)(money -100);
+            }
+            else
+            {
+                 bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
+
+            }
+        }
+        else if(bytChoice == 3)
+        {
+            
+        }else if(bytChoice == 4)
+        {
+            
+        }
+        else if(bytChoice == 5)
+        {
+            
+        }
+        else{
+            bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
+
+        }
+        return money;
     }
 } 
 

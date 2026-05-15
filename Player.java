@@ -23,7 +23,7 @@ public class Player implements java.io.Serializable
     private long lngTotalScore;
 
     //constructor class to initialize
-    Player(String un, short phs, long ts)
+    Player(String un, short phs)
     {
         this.strUserName = un;
         this.shrScore = 0;
@@ -87,7 +87,7 @@ public class Player implements java.io.Serializable
     //setter method for lngTotalScore to set and allow since though private
     public void setTotalScore(long ts)
     {
-        this.lngTotalScore = ts;
+        this.lngTotalScore += ts;
         
     }
 }
