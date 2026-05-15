@@ -23,12 +23,12 @@ public class Player implements java.io.Serializable
     private long lngTotalScore;
 
     //constructor class to initialize
-    Player(String un, short phs)
+    Player(String un, short phs, long ts)
     {
         this.strUserName = un;
         this.shrScore = 0;
         this.shrPersonalHighScore = phs;
-        this.lngTotalScore =0;
+        this.lngTotalScore = ts;
     }
     
     //default constructor to populate with default values
@@ -76,6 +76,13 @@ public class Player implements java.io.Serializable
         this.shrPersonalHighScore = x;
     }
     //Saves and stores the player’s info when opening an existing account. It is already populated with the user’s name, score, and personal high score and can be further updated.
+    
+    //getter method for lngTotalScore to allow access since private
+    public long getTotalScore()
+    {
+        return this.lngTotalScore;
+        
+    }
     
     //setter method for lngTotalScore to set and allow since though private
     public void setTotalScore(long ts)
