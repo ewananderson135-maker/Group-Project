@@ -287,18 +287,18 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             bolEvent2 = false;
             for(int i = aItems.size() - 1; i > 4 ; i--){
                 if(aItems.get(i) instanceof Bomb){
-                aGrid[((Bomb)aItems.get(i)).getRow()][((Bomb)aItems.get(i)).getCol()] = 0;
+                    aGrid[((Bomb)aItems.get(i)).getRow()][((Bomb)aItems.get(i)).getCol()] = 0;
 
-            }else if(aItems.get(i) instanceof Food){
-                aGrid[((Food)aItems.get(i)).getRow()][((Food)aItems.get(i)).getCol()] = 0;
+                }else if(aItems.get(i) instanceof Food){
+                    aGrid[((Food)aItems.get(i)).getRow()][((Food)aItems.get(i)).getCol()] = 0;
 
-            }else{
-                                aGrid[((SuperFood)aItems.get(i)).getRow()][((SuperFood)aItems.get(i)).getCol()] = 0;
+                }else{
+                    aGrid[((SuperFood)aItems.get(i)).getRow()][((SuperFood)aItems.get(i)).getCol()] = 0;
 
-            }
+                }
 
                 aItems.remove(i);
-                
+
             }
         }
         if(lngCurrentTime - lngStartTime >= 10000)
@@ -335,9 +335,8 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         }
 
         for(byte i = 0; i < aSnake.size(); i++ ){
+            if(bytChoice == 5){
             byte bytRandom =  (byte)(Math.random() * 6);
-            
-
 
             pTemp = aSnake.get(i);
             if(bytRandom == 0){
@@ -349,23 +348,36 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             else if(bytRandom == 2){
                 aPanels[pTemp.x][pTemp.y].setBackground(Color.YELLOW);
 
-        }else if(bytRandom == 3){
-                        aPanels[pTemp.x][pTemp.y].setBackground(Color.CYAN);
+            }else if(bytRandom == 3){
+                aPanels[pTemp.x][pTemp.y].setBackground(Color.CYAN);
 
-        }
-        
-    
-        else if(bytRandom == 5){
-            aPanels[pTemp.x][pTemp.y].setBackground(Color.LIGHT_GRAY);
+            }
+
+            else if(bytRandom == 5){
+                aPanels[pTemp.x][pTemp.y].setBackground(Color.LIGHT_GRAY);
             }
             else if(bytRandom == 4){
                 aPanels[pTemp.x][pTemp.y].setBackground(Color.WHITE);
 
+            }
         }
+            else if(bytChoice == 1){
+                pTemp = aSnake.get(i);
+                aPanels[pTemp.x][pTemp.y].setBackground(Color.GREEN);
+            }
+            else if(bytChoice == 2){
+                pTemp = aSnake.get(i);
+                aPanels[pTemp.x][pTemp.y].setBackground(Color.CYAN);
+            }
+            else if(bytChoice == 3){
+                pTemp = aSnake.get(i);
+                aPanels[pTemp.x][pTemp.y].setBackground(Color.ORANGE);
+            }
+            else{
+                pTemp = aSnake.get(i);
+                aPanels[pTemp.x][pTemp.y].setBackground(Color.YELLOW);
+            }
         
-            
-            
-
         }
         for(byte i = 0; i < aItems.size(); i++){
             if(aItems.get(i) instanceof Bomb){
@@ -381,7 +393,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         lblScore.setText("Score: " + p.getScore());
         repaint();
         revalidate();
-    
+
     }
 
     public void addItem(){
@@ -420,7 +432,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         do{
             try{
 
-                if (bytAccount != 1 || bytAccount != 2)
+                if (bytAccount < 1 || bytAccount > 2)
                 {
                     bytAccount = Byte.parseByte(JOptionPane.showInputDialog("input: 1.Yes or 2.No"));
                     bolAccount = true;  
@@ -438,7 +450,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                             String strUserName = in.readLine();
 
                             short shrPersonalHighScore = Short.parseShort(in.readLine());
-                            
+
                             short shrTotalScore = Short.parseShort(in.readLine());
                             p = new Player(strName,shrPersonalHighScore, shrTotalScore);
                         }
@@ -459,11 +471,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
                         JOptionPane.showMessageDialog(null, "Your account does not exist: creating new account");
                         File file = new File (strName + ".txt");
 
-                        
-
                         p = new Player(strName,(short)0, (short) 0);
-
-        
 
                     }
                     bolAccount = false;    
@@ -558,81 +566,82 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         }
 
     }
-    
+
     public short shop(short shrMoney)
     {
-        
         boolean bolShop = true;
+        JOptionPane.showMessageDialog(null, "Welcome to the shop!");
+
         do
         {
-            
-            
+            bytChoice = Byte.parseByte(JOptionPane.showInputDialog("\n1.Exit \n2.Green(0$) /n3.Purple(100$) \n4. Orange(300$) \n5.Yellow(450$) \n6.Rainbow(600$)\n\nYou currently have: " + p.getTotalScore() + "$"));
+            if(bytChoice == 1)
+            {
+                bolShop = false;
+                return 0;
+            }
+            else if(bytChoice == 2)
+            {
+                if(shrMoney>=100)
+                {
+                    return -100;
+                    
+                }
+                else
+                {   
+                    JOptionPane.showMessageDialog(null, "Not enough money!");
+
+                    bolShop = true;
+
+                }
+            }
+            else if(bytChoice == 3)
+            {
+                if(shrMoney>=300)
+                {
+                    return -300;
+
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Not enough money!");
+
+                }            
+            }else if(bytChoice == 4)
+            {
+                if(shrMoney>=450)
+                {
+                    return -450;
+
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Not enough money!");
+
+                }
+
+            }
+            else if(bytChoice == 5)
+            {
+                if(shrMoney>=600)
+                {
+                    return -600;
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Not enough money!");
+
+                }
+
+            }
+            else{
+                   JOptionPane.showMessageDialog(null, "Wrong input!");
+
+            }
+
         }while(bolShop);
-        bytChoice = Byte.parseByte(JOptionPane.showInputDialog("Welcome to the shop! You have " + "$\n1.Exit \n2.Green(0$) /n3.Purple(100$) \n4. Orange(300$) \n5.Yellow(450$) \n6.Rainbow(600$)\n\nYou currently have: " + p.getTotalScore() + "$"));
-        
-        if(bytChoice == 1)
-        {
-            return 0;
-        }
-        else if(bytChoice == 2)
-        {
-            if(shrMoney>=100)
-            {
-                return -100;
-                bolShop = false;
-            }
-            else
-            {   
-                
-                 bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
-                 
-            }
-        }
-        else if(bytChoice == 3)
-        {
-            if(shrMoney>=300)
-            {
-                return -300;
-                bolShop = false;
-            }
-            else
-            {
-                 bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
+        return 0;
 
-            }            
-        }else if(bytChoice == 4)
-        {
-            if(shrMoney>=450)
-            {
-                bolShop = false;
-                return -450;
-                
-            }
-            else
-            {
-                 bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
-
-            }
-            
-        }
-        else if(bytChoice == 5)
-        {
-            if(shrMoney>=600)
-            {
-                return -600;
-            }
-            else
-            {
-                 bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
-
-            }
-            
-        }
-        else{
-            bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
-
-        }
-        
     }
 } 
 
