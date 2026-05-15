@@ -491,6 +491,7 @@ public class Interface extends JFrame implements KeyListener, ActionListener
     }
 
     public void endMessage(){
+        p.setTotalScore(p.getScore());
         if(p.getPersonalHighScore() <= p.getScore()){
             p.setPersonalHighScore(p.getScore());
         }
