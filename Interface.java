@@ -559,43 +559,75 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
     }
     
-    public byte shop(byte money)
+    public byte shop(byte bytMoney)
     {
         byte bytChoice;
-        bytChoice = Byte.parseByte(JOptionPane.showInputDialog("Welcome to the shop! You have " + "$\n1.Exit \n2.Purple(100) \n3. Orange(300) \n4.Yellow(450) \n5.Rainbow(600)"));
+        boolean bolShop = true;
+        do
+        {
+            
+            
+        }while(bolShop);
+        bytChoice = Byte.parseByte(JOptionPane.showInputDialog("Welcome to the shop! You have " + "$\n1.Exit \n2.Green(0) /n3.Purple(100) \n4. Orange(300) \n5.Yellow(450) \n6.Rainbow(600)"));
         
         if(bytChoice == 1)
         {
-            return money;
+            return bytMoney;
         }
         else if(bytChoice == 2)
         {
-            if(money>=100)
+            if(bytMoney>=100)
             {
-                money = (byte)(money -100);
+                bytMoney = (byte)(bytMoney -100);
+            }
+            else
+            {
+                 bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
+                 
+            }
+        }
+        else if(bytChoice == 3)
+        {
+            if(bytMoney>=300)
+            {
+                bytMoney = (byte)(bytMoney -300);
+            }
+            else
+            {
+                 bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
+
+            }            
+        }else if(bytChoice == 4)
+        {
+            if(bytMoney>=450)
+            {
+                bytMoney = (byte)(bytMoney -450);
             }
             else
             {
                  bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
 
             }
-        }
-        else if(bytChoice == 3)
-        {
-            
-        }else if(bytChoice == 4)
-        {
             
         }
         else if(bytChoice == 5)
         {
+            if(bytMoney>=600)
+            {
+                bytMoney = (byte)(bytMoney -600);
+            }
+            else
+            {
+                 bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
+
+            }
             
         }
         else{
             bytChoice =  Byte.parseByte(JOptionPane.showInputDialog("Wrong input! Input 1,2,3,4,or 5 "));
 
         }
-        return money;
+        return bytMoney;
     }
 } 
 
