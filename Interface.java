@@ -1,10 +1,24 @@
 
 /**
- * Write a description of class Interface here.
- *
- * @author (your name)
- * @version (a version number or a date)
+Nathaniel  coded write and reader for highscore
+Michelle coded start message method, including upload for player class, also the shop
+Ewan coded rest
+
+
+Everything including GUIs will be running from this class. Creates a 2d array to hold
+temp locations of snake and items. Snake will gradually increase speed, controlled by keys\
+You lose if you hit the wall or yourself. It keeps track of your personal highscore,
+the highscore of all time and your current score. After 30 seconds an event will occur when tons of items spawn in
+At the begining of each round a shop will open where you will be able to buy a skin, based
+on total amount of score(/money) on account. Has an arraylist of all items and also snake will
+be controlled by an array list of points. By eating a superfood or food it will incerase in size
+Superfood = blue = 10 points
+food  = magenta = 5 points
+bomb = red = -5 points
+ * @author (Ewan, Michelle, Nathaniel)
+ * @version (5/16/2026)
  */
+//importing everything necessary for guis, point system, to be able to use keys, arraylist and file IO
 import java.awt.Point;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
@@ -13,117 +27,139 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.io.*;
-import java.util.Scanner;
+//needs to implement key Listener and action listnener to be able to move each second and use keys
 public class Interface extends JFrame implements KeyListener, ActionListener
 {
-    final byte GRID_LENGTH = 30;
-    final byte GRID_WIDTH = 30;
+    //all the instance variables are declared below, they aren't stuck in methods because passing the parameters would be annoying to constance reuse
+    //constants for the grid size
+    private final byte GRID_LENGTH = 30;
+    private final byte GRID_WIDTH = 30;
+    //2d array where 0 is empty space, snake is 1
     private byte[][] aGrid = new byte[GRID_LENGTH][GRID_WIDTH];
+    // starting position for the head right in middle
     private byte bytRowHead = 15;
     private byte bytColHead = 15;
-    private short shrScore = 0;
+    //to check if game is over
     private boolean bolGameOver = false;
+    //timer to move snake based on time
     private Timer tmrTimer;
+    //direction snake travels and will start right
     private String strDirection = "RIGHT";
-    private JPanel[][] aPanels =
-        new JPanel[GRID_LENGTH][GRID_WIDTH];
+    //GUIs, the jpanel will devide the screen into a grid with 30 x 30 length
+    private JPanel[][] aPanels = new JPanel[GRID_LENGTH][GRID_WIDTH];
+    //these are both to make the event only happen once and not repeat.
     private boolean bolEvent = true;
     private boolean bolEvent2 = true;
 
+    //point arraylist for all of snakes body
     private ArrayList<Point> aSnake = new ArrayList<Point>();
+    //arraylist for all items of all types
     private ArrayList<Item> aItems = new ArrayList<Item>();
+    //to save highscore
     private short shrHighScore;
+    //this will be the name of temp player used each round
     private Player p;
+    //the start speed of timer
     private int intDelay = 200;
+    //next 3 are to keep track of start time for the events to happen, ex increasing speed
     private long lngStartTime;
     private long lngStartTime2;
     private long lngStartTime3;
+    //These will be used as GUI tital;s and to devide it by top and grid
     private JPanel pnlTop;
     private JPanel pnlGrid;
     private JLabel lblScore;
     private JLabel lblPersonalHigh;
     private JLabel lblHighScore; 
-    Point pTail;
+    
+    //choice for the shop
     private byte bytChoice;
-
+    //creates frame for the game to be played on
     public void createFrame()
     {
-
+        //title
         setTitle("Serpent Game");
 
         //sets frame size
         setSize(1000, 1000);
 
-        //set the layout to GridLayout so the tiles will easily snap in and be the same size
+        //set the layout to borderlayout so we can snap in the points and also the grid into same thing
+        
         setLayout(new BorderLayout());
         setVisible(true);
-
+    
+        //sets up the top panel with all the score info
         pnlTop = new JPanel();
         pnlTop.setBackground(Color.BLACK);
         lblScore = new JLabel("Score: 0");
         lblPersonalHigh = new JLabel(" Personal High: " + p.getPersonalHighScore());
         lblHighScore = new JLabel(" Global High: "+ shrHighScore);
 
+        //font colors for words
         lblScore.setForeground(Color.WHITE);
-
         lblPersonalHigh.setForeground(Color.WHITE);
-
         lblHighScore.setForeground(Color.WHITE);
-
+    
+        //adds all to the top part which will be added to layour
         pnlTop.add(lblScore);
-
         pnlTop.add(lblPersonalHigh);
-
         pnlTop.add(lblHighScore);
-
+        //adds all the text to the top of the layout for scores
         add(pnlTop, BorderLayout.NORTH);
-
+        
+        //jpanel for the grid
         pnlGrid = new JPanel();
-
+        //sets layout of grid to an actual grid
         pnlGrid.setLayout(new GridLayout(GRID_LENGTH,GRID_WIDTH));
-
+        //adds to the layour
         add(pnlGrid, BorderLayout.CENTER);
+        //creates the physical tiles
         createGrid();
-
+        //creates base of snake, with 2 points to start
         aSnake.add(new Point(bytRowHead, bytColHead));
         aSnake.add(new Point(15,15));
+        //needs to add the key listner into the code
         addKeyListener(this);
-
+        //on the 2d array has a 1 to show current postion of head
         aGrid[bytRowHead][bytColHead] = 1;
 
+        //starts by adding 5 items
         for(byte i = 0; i < 5; i++){
             addItem();
         }
-        // when it starts running it will actually intialize timer
-
+    
+        //starts the timer and sets start time for all counters for events
         lngStartTime = System.currentTimeMillis();
         lngStartTime2 = System.currentTimeMillis();
         lngStartTime3 = System.currentTimeMillis();
         tmrTimer = new Timer(intDelay, this);
         tmrTimer.start();
     }
-
+    //cerates actuall grid
     public void createGrid()
     {
         for(int i = 0; i < GRID_LENGTH; i++)
         {
             for(int j = 0; j < GRID_WIDTH; j++)
-            {
+            {   
+                //for the 2darray starts at everything blank by 0
                 aGrid[i][j] = 0;
                 aPanels[i][j] = new JPanel();
-
+                //cretes the actual display panels and starts them as black
                 aPanels[i][j].setBackground(Color.BLACK);
+                //adds to display.
                 pnlGrid.add(aPanels[i][j]);
             }
         }
     }
-
+    //this method will check for food and move player based on direction.
     public void movePlayer(){
+        //checks head location and creates the row and col for it based on it.
         Point pHead = aSnake.get(0);
         byte bytTempRow = (byte)pHead.x;
         byte bytTempCol = (byte)pHead.y;
         boolean bolGrow = false;
-
+        //checks current direction and changes either row or col accordingly
         if(strDirection.equals("UP"))
         {
             bytTempRow--;
@@ -143,26 +179,37 @@ public class Interface extends JFrame implements KeyListener, ActionListener
         {
             bytTempCol++;
         }
-
+        //runs the check boundaries method to see if you either hit yourself or are out of bounds. and will end game and stop timer
         if(checkBoundaries(bytTempRow, bytTempCol) == false){
             tmrTimer.stop();
             endMessage();
             return;
         }
-
+        
+        //if doesnt end, it will change head position
         aSnake.add(0,new Point(bytTempRow, bytTempCol));
+        //and make it on 2d array 1 to indicated snake
         aGrid[bytTempRow][bytTempCol] = 1;
+        //checks if snake is touching item
         for(byte i = 0; i < aItems.size();i++){
+            //sepperates for each subclass
             if(aItems.get(i) instanceof Bomb){
+                //checks if snakes touching it
                 if(((Bomb)(aItems.get(i))).getRow() == bytTempRow && ((Bomb)(aItems.get(i))).getCol() == bytTempCol ){
+                    //sets the position to 0, adds points then removes item and replaces with new
                     aGrid[bytTempRow][bytTempCol] = 0; 
                     p.setScore(aItems.get(i).getPoints());
                     aItems.remove(i);
                     addItem();
 
                 }
+                
             }else if(aItems.get(i) instanceof Food){
+                                //checks if snakes touching it
+
                 if(((Food)(aItems.get(i))).getRow() == bytTempRow && ((Food)(aItems.get(i))).getCol() == bytTempCol ){
+                                        //sets the position to 0, adds points then removes item and replaces with new
+                    //sets bolgrow to true also so length of snake increases
                     bolGrow = true;
                     aGrid[bytTempRow][bytTempCol] = 0;
                     p.setScore(aItems.get(i).getPoints());
@@ -171,7 +218,11 @@ public class Interface extends JFrame implements KeyListener, ActionListener
 
                 }
             }else{
+                                //checks if snakes touching it
+
                 if(((SuperFood)(aItems.get(i))).getRow() == bytTempRow && ((SuperFood)(aItems.get(i))).getCol() == bytTempCol ){
+                      //sets the position to 0, adds points then removes item and replaces with new
+                    //sets bolgrow to true also so length of snake increases
                     bolGrow = true;
                     aGrid[bytTempRow][bytTempCol] = 0;
                     p.setScore(aItems.get(i).getPoints());
@@ -183,11 +234,14 @@ public class Interface extends JFrame implements KeyListener, ActionListener
             }
 
         }
+        //if the bolgrow is false, meaning not touching food or superfood, it will the end part of snake.
         if(!bolGrow)
         {
-            pTail = aSnake.remove(aSnake.size() - 1);
+            //removes last part of snake
+            aSnake.remove(aSnake.size() - 1);
 
         }
+        //updates visiual method for GUI
         updateBoard();
     }
 

@@ -1,9 +1,12 @@
 
 /**
- * Write a description of class SuperFood here.
- *
- * @author (your name)
- * @version (a version number or a date)
+Coded by Michelle
+This class will be subclass item type for a superfood item, thats blue worth 10 points,
+it will also have a row and column variables for it's location. This was coded earlier and in retrospect
+they could've been instance variables in super class. It will be placed in the 2d array as a superitem thats blue
+ * If touched will increase snake size
+ * @author (Michelle)
+ * @version (5/16/2026)
  */
 public class SuperFood extends Item
 {
@@ -11,7 +14,7 @@ public class SuperFood extends Item
     private byte bytCol;
    SuperFood(byte x, byte y)
     {
-        super((short)10, "Green");
+        super((short)10, "Blue");
          this.bytRow = x;
         this.bytCol = y;
     }
